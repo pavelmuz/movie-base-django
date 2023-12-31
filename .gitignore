@@ -1,4 +1,6 @@
 moviebase/__pycache__
+movies/__pycache__
+movies/migrations/__pycache__
 node_modules/
 
 .env
