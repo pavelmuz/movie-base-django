@@ -5,3 +5,4 @@ node_modules/
 
 .env
 .prettierignore
+templates/temp.html
