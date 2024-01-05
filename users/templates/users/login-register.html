@@ -8,17 +8,18 @@
     <div class="card-body">
         <h4 class="card-title">Войти в аккаунт</h4>
         <form action="" method="post">
+            {% csrf_token %}
             <div class="mb-3">
                 <label for="username" class="form-label">Имя пользователя</label>
-                <input type="text" class="form-control auth-input" id="username" placeholder="Имя пользователя">
+                <input type="text" class="form-control auth-input" name="username" id="username">
             </div>
             <div class="mb-3">
                 <label for="passowrd" class="form-label">Пароль</label>
-                <input type="password" class="form-control auth-input" id="password" placeholder="************">
+                <input type="password" class="form-control auth-input" name="password" id="password">
             </div>
             <input class="btn auth-btn mb-3" type="submit" value="Войти">
         </form>
-        <a href="" class="card-link mt-2">Забыли пароль?</a>
+        <a href="{% url 'reset_password' %}" class="card-link mt-2">Забыли пароль?</a>
         <p class="card-text my-3">Еще нет аккаунта? <a href="{% url 'register' %}" class="card-link">Зарегистрируйтесь</a></p>
     </div>
 </div>
@@ -29,18 +30,30 @@
     <div class="card-body">
         <h4 class="card-title">Создать аккаунт</h4>
         <form action="" method="post">
+            {% csrf_token %}
             <div class="mb-3">
-                <label for="username" class="form-label">Имя пользователя</label>
-                <input type="text" class="form-control auth-input" id="username" placeholder="Имя пользователя">
+                <label for="{{ form.first_name.id_for_label }}" class="form-label">Полное имя</label>
+                {{ form.first_name }}
             </div>
             <div class="mb-3">
-                <label for="passowrd" class="form-label">Пароль</label>
-                <input type="password" class="form-control auth-input" id="password" placeholder="************">
+                <label for="{{ form.email.id_for_label }}" class="form-label">Электронная почта:</label>
+                {{ form.email }}
             </div>
-            <input class="btn auth-btn mb-3" type="submit" value="Войти">
+            <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Имя пользователя</label>
+                {{ form.username }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">Пароль</label>
+                {{ form.password1 }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">Подтвердите пароль</label>
+                {{ form.password2 }}
+            </div>
+            <input class="btn auth-btn mb-3" type="submit" value="Создать аккаунт">
         </form>
-        <a href="" class="card-link mt-2">Забыли пароль?</a>
-        <p class="card-text my-3">Еще нет аккаунта? <a href="{% url 'login' %}" class="card-link">Зарегистрируйтесь</a></p>
+        <p class="card-text my-3">Уже есть аккаунт? <a href="{% url 'login' %}" class="card-link">Войдите</a></p>
     </div>
 </div>
 

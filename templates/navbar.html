@@ -19,19 +19,33 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Найти</a>
                 </li>
+
+                {% if request.user.is_authenticated %}
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">Уведомления</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Профиль</a>
                 </li>
+                
+                {% else %}
+
                 <li class="nav-item">
                     <a class="nav-link{% if request.path == '/users/login/' or request.path == '/users/register/' %} link-active{% endif %}" href="{% url 'login' %}">Войти/Регистрация</a>
                 </li>
 
+                {% endif %}
+
                 {% if request.user.is_superuser %}
-                <li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'admin:index' %}">Администрирование</a>
+                </li>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket fa-lg"></i>  Выйти</a>
                 </li>
                 {% endif %}
 

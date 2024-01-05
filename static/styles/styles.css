@@ -3,7 +3,8 @@ body {
 }
 
 .navbar {
-  background-color: #0b666a;
+  /* background-color: #0b666a; */
+  background-color: #1b3333;
 }
 
 .nav-logo {
@@ -33,7 +34,8 @@ body {
 
 .movie-card,
 .auth-card {
-  background-color: #1b3333;
+  /* background-color: #1b3333; */
+  background-color: #0b666a;
   color: #c3edc0;
   max-width: 700px;
 }
