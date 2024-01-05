@@ -3,14 +3,12 @@
 {% include "main.html" %}
 
 {% block content %}
-    
-{% for movie in movies %}
 
 <div class="container card movie-card mx-auto my-2">
     <div class="row">
         <div class="col">
             <div class="row">
-                <p class="card-text ms-3 pt-2">test_user</p>
+                <p class="card-text pt-2 ms-3">test_user</p>
             </div>
         </div>
     </div>
@@ -20,19 +18,15 @@
         </div>
         <div class="col-8">
             <div class="card-body">
-                <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
-                    <h5 class="card-title">{{ movie.title }}</h5>
-                    <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
-                    <p class="card-text"><strong>Нравится: </strong>56</p>
-                    <p class="card-text"><strong>Обзор: </strong>{{ movie.description }}</p>
-                </a>
+                <h5 class="card-title">{{ movie.title }}</h5>
+                <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
+                <p class="card-text"><strong>Нравится: </strong>56</p>
+                <p class="card-text"><strong>Обзор: </strong>{{ movie.description }}</p>
                 <a href="#"><i class="fa-regular fa-heart fa-xl card-button"></i></a>
                 <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
             </div>
         </div>
     </div>
 </div>
-
-{% endfor %}
 
 {% endblock content %}

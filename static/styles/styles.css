@@ -1,21 +1,64 @@
 body {
   background-color: #c3edc0;
-  margin: 0;
 }
 
-#page-navbar {
+.navbar {
   background-color: #0b666a;
 }
 
-#mobile-menu {
-  background-color: #0b666a;
+.nav-logo {
+  width: 50px;
+  height: 50px;
 }
 
-.nav-link {
+.nav-link,
+.navbar-brand,
+.card-link {
   color: #c3edc0;
 }
 
-.movie-card {
+.nav-link:hover,
+.navbar-brand:hover {
+  color: #9cbd99;
+}
+
+.link-active {
+  color: #9cbd99;
+}
+
+.navbar-toggler {
+  color: #c3edc0;
+  border-color: #c3edc0;
+}
+
+.movie-card,
+.auth-card {
   background-color: #1b3333;
   color: #c3edc0;
+  max-width: 700px;
 }
+
+.movie-card-poster {
+  max-width: 220px;
+}
+
+.card-button {
+  color: #c3edc0;
+}
+
+.card-profile-img {
+  width: 50px;
+  height: 50px;
+}
+
+.auth-btn {
+  background-color: #c3edc0;
+}
+
+.auth-btn:hover {
+  background-color: #9cbd99;
+}
+
+/* .auth-input {
+  background-color: #fae8d8;
+} */

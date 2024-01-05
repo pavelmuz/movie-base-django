@@ -2,46 +2,43 @@
 
 {% block content %}
 
-<nav class="p-4 fixed w-full top-0 z-10" id="page-navbar">
-    <div class="container mx-auto flex items-center justify-between">
-        <!-- Logo -->
-        <div class="flex items-center">
-            <img src="{% static 'images/nav-logo.png' %}" alt="" srcset="" class="w-10 h-10 rounded-full">
-            <a href="{% url 'movies' %}" class="nav-link text-lg font-semibold ml-2">Movie Base</a>
-        </div>
-        
-        <!-- Navigation links -->
-        <div id="nav-links" class="hidden md:flex space-x-4 nav-link">
-            <a href="{% url 'movies' %}">Лента</a>
-            <a href="#">Найти</a>
-            <a href="#">Добавить фильм</a>
-            <a href="#">Уведомления</a>
-            <a href="#">Профиль</a>
-            {% if request.user.is_superuser %}
-                <a href="{% url 'admin:index' %}">Администрирование</a>
-            {% endif %}
-        </div>
-        
-        <!-- Mobile menu button -->
-        <div class="md:hidden">
-            <button id="mobile-menu-btn" class="nav-link focus:outline-none">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a href="{% url 'movies' %}">
+            <img src="{% static 'images/nav-logo.png' %}" class="rounded-circle img-fluid mx-3 nav-logo">
+        </a>
+        <a class="navbar-brand" href="{% url 'movies' %}">Movie Base</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars fa-lg"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link{% if request.path == '/' %} link-active{% endif %}" aria-current="page" href="{% url 'movies' %}">Лента</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Найти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Уведомления</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Профиль</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if request.path == '/users/login/' or request.path == '/users/register/' %} link-active{% endif %}" href="{% url 'login' %}">Войти/Регистрация</a>
+                </li>
+
+                {% if request.user.is_superuser %}
+                <li>
+                    <a class="nav-link" href="{% url 'admin:index' %}">Администрирование</a>
+                </li>
+                {% endif %}
+
+            </ul>
         </div>
     </div>
 </nav>
-  
-<!-- Mobile menu -->
-<div id="mobile-menu" class="md:hidden fixed top-16 inset-x-0 nav-link p-4 hidden">
-    <a href="{% url 'movies' %}" class="block mb-2">Лента</a>
-    <a href="#" class="block mb-2">Найти</a>
-    <a href="#" class="block mb-2">Добавить фильм</a>
-    <a href="#" class="block mb-2">Уведомления</a>
-    <a href="#" class="block mb-2">Профиль</a>
-</div>
+
 
 {% endblock content %}

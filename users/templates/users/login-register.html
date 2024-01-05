@@ -1,0 +1,49 @@
+{% include "main.html" %}
+
+{% block content %}
+
+{% if page == 'login' %}
+
+<div class="card container auth-card my-2">
+    <div class="card-body">
+        <h4 class="card-title">Войти в аккаунт</h4>
+        <form action="" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Имя пользователя</label>
+                <input type="text" class="form-control auth-input" id="username" placeholder="Имя пользователя">
+            </div>
+            <div class="mb-3">
+                <label for="passowrd" class="form-label">Пароль</label>
+                <input type="password" class="form-control auth-input" id="password" placeholder="************">
+            </div>
+            <input class="btn auth-btn mb-3" type="submit" value="Войти">
+        </form>
+        <a href="" class="card-link mt-2">Забыли пароль?</a>
+        <p class="card-text my-3">Еще нет аккаунта? <a href="{% url 'register' %}" class="card-link">Зарегистрируйтесь</a></p>
+    </div>
+</div>
+
+{% else %}
+
+<div class="card container auth-card my-2">
+    <div class="card-body">
+        <h4 class="card-title">Создать аккаунт</h4>
+        <form action="" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Имя пользователя</label>
+                <input type="text" class="form-control auth-input" id="username" placeholder="Имя пользователя">
+            </div>
+            <div class="mb-3">
+                <label for="passowrd" class="form-label">Пароль</label>
+                <input type="password" class="form-control auth-input" id="password" placeholder="************">
+            </div>
+            <input class="btn auth-btn mb-3" type="submit" value="Войти">
+        </form>
+        <a href="" class="card-link mt-2">Забыли пароль?</a>
+        <p class="card-text my-3">Еще нет аккаунта? <a href="{% url 'login' %}" class="card-link">Зарегистрируйтесь</a></p>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock content %}

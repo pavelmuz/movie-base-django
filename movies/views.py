@@ -5,6 +5,12 @@ from .models import Movie
 
 
 def movies_view(request):
-    movies = Movie.objects.all().order_by('title')
+    movies = Movie.objects.all().order_by('-user_rating')
     context = {'movies': movies}
     return render(request, 'movies/movies.html', context)
+
+
+def movie_view(request, pk):
+    movie = Movie.objects.get(id=pk)
+    context = {'movie': movie}
+    return render(request, 'movies/movie.html', context)
