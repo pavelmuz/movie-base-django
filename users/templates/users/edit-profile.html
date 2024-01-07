@@ -1,0 +1,19 @@
+{% include "main.html" %}
+
+{% block content %}
+
+<div class="card container auth-card my-2">
+    <div class="card-body">
+        <h4 class="card-title">Редактировать профиль</h4>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field.label }}
+                {{ field }}
+            {% endfor %}
+            <input class="btn edit-btn mb-3" type="submit" value="Сохранить">
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

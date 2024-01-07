@@ -3,17 +3,28 @@
 {% include "main.html" %}
 
 {% block content %}
-    
-{% for movie in movies %}
 
 <div class="container card movie-card mx-auto my-2">
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <p class="card-text ms-3 pt-2">{{ movie.owner.username }}</p>
+    <div class="row pb-3">
+        <div class="col-4">
+            <img src="{{ profile.profile_image.url }}" class="img-fluid rounded movie-card-poster mx-3 mt-3">
+        </div>
+        <div class="col-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ profile.username }}</h5>
+                <p class="card-text">{{ profile.birthday }}</p>
+                <p class="card-text">{{ profile.email }}</p>
+                <p class="card-text">{{ profile.name }}</p>
+                <a class="btn edit-btn" href="{% url 'edit_profile' %}" role="button"><i class="fa-solid fa-pen-to-square"></i> Изменить</a>
+                <a class="btn btn-danger" href="{% url 'delete-profile' %}" role="button"><i class="fa-solid fa-trash-can"></i> Удалить аккаунт</a>
             </div>
         </div>
     </div>
+</div>
+
+{% for movie in movies %}
+
+<div class="container card movie-card mx-auto my-2">
     <div class="row pb-3">
         <div class="col-4">
             <img src="{{ movie.poster_url }}" class="img-fluid rounded movie-card-poster mx-3 mt-3">

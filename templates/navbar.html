@@ -14,10 +14,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link{% if request.path == '/' %} link-active{% endif %}" aria-current="page" href="{% url 'movies' %}">Лента</a>
+                    <a 
+                        class="nav-link{% if request.path == '/' %} link-active{% endif %}" 
+                        href="{% url 'movies' %}"
+                    >Лента</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Найти</a>
+                    <a 
+                        class="nav-link{% if request.path == '/users/search/' %} link-active{% endif %}" 
+                        href="{% url 'search' %}"
+                    >Найти</a>
                 </li>
 
                 {% if request.user.is_authenticated %}
@@ -26,7 +32,10 @@
                     <a class="nav-link" href="#">Уведомления</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Профиль</a>
+                    <a 
+                        class="nav-link {% if request.path == '/users/account/' %}link-active{% endif %}" 
+                        href="{% url 'account' %}"
+                    >Профиль</a>
                 </li>
                 
                 {% else %}

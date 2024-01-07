@@ -1,0 +1,19 @@
+{% include "main.html" %}
+
+{% block content %}
+
+
+<div class="card container auth-card my-2">
+    <div class="card-body">
+        <h4 class="card-title">Вы действительно хотите удалить аккаунт?</h4>
+        <form action="" method="post">
+            {% csrf_token %}
+            <a class="btn edit-btn" href="{% url 'account' %}" role="button">Назад</a>
+            <button type="submit" class="btn btn btn-danger mb-3">
+                <i class="fa-solid fa-trash-can"></i> Удалить
+            </button>           
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,26 @@
+{% include "main.html" %}
+
+{% block content %}
+
+{% for profile in profiles %}
+
+<div class="container card movie-card mx-auto my-2">
+    <div class="row pb-3">
+        <div class="col-4">
+            <img src="{{ profile.profile_image.url }}" class="img-fluid rounded movie-card-poster mx-3 mt-3">
+        </div>
+        <div class="col-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ profile.username }}</h5>
+                <p class="card-text">{{ profile.birthday }}</p>
+                <p class="card-text">{{ profile.email }}</p>
+                <p class="card-text">{{ profile.name }}</p>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock content %}
