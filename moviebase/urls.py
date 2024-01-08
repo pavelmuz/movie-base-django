@@ -33,7 +33,9 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
         template_name='reset.html'), name='password_reset_confirm'),
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(
-        template_name='reset-password-complete.html'), name='password_reset_complete')
+        template_name='reset-password-complete.html'), name='password_reset_complete'),
+
+    path('', include('pwa.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

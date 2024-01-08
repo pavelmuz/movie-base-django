@@ -1,10 +1,9 @@
 moviebase/__pycache__
 movies/__pycache__
 movies/migrations/__pycache__
-node_modules/
 users/__pycache__
 users/migrations/__pycache__
+static/.DS_Store
 
 .env
 .prettierignore
-templates/temp.html
