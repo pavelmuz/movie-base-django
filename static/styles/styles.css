@@ -3,7 +3,6 @@ body {
 }
 
 .navbar {
-  /* background-color: #0b666a; */
   background-color: #1b3333;
 }
 
@@ -34,7 +33,6 @@ body {
 
 .movie-card,
 .auth-card {
-  /* background-color: #1b3333; */
   background-color: #0b666a;
   color: #c3edc0;
   max-width: 700px;
@@ -63,6 +61,54 @@ body {
   background-color: #9cbd99;
 }
 
-/* .auth-input {
-  background-color: #fae8d8;
-} */
+.avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.search-user-card {
+  background-color: #0b666a;
+  color: #c3edc0;
+  max-width: 600px;
+}
+
+.follow-btn {
+  background-color: transparent;
+  border-color: #c3edc0;
+  color: #c3edc0;
+}
+
+.follow-btn:hover {
+  background-color: #c3edc0;
+  color: #0b666a;
+}
+
+.following-btn {
+  background-color: #c3edc0;
+}
+
+.following-btn:hover {
+  background-color: #9cbd99;
+}
+
+.search-user {
+  max-width: 600px;
+}
+
+.search-user-btn {
+  background-color: transparent;
+  border-color: #0b666a;
+  color: #0b666a;
+  width: 120px;
+}
+
+.search-user-btn:hover {
+  background-color: #0b666a;
+  color: #c3edc0;
+}
+
+.search-user-input::placeholder {
+  color: #0b666a;
+}
