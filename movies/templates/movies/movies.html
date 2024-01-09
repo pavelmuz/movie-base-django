@@ -3,33 +3,41 @@
 {% include "main.html" %}
 
 {% block content %}
-    
+
 {% for movie in movies %}
 
 <div class="container card movie-card mx-auto my-2">
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <p class="card-text ms-3 pt-2">{{ movie.owner.username }}</p>
-            </div>
+    <div class="row py-2">
+        <div class="col-auto">
+            <img src="{{ movie.owner.profile_image.url }}" class="avatar-img-sm">
+        </div>
+        <div class="col ps-0">
+            <p class="card-text">{{ movie.owner.username }}</p>
         </div>
     </div>
-    <div class="row pb-3">
+    <div class="row">
         <div class="col-4">
-            <img src="{{ movie.poster_url }}" class="img-fluid rounded movie-card-poster mx-3 mt-3">
-        </div>
-        <div class="col-8">
-            <div class="card-body">
-                <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
-                    <h5 class="card-title">{{ movie.title }}</h5>
-                    <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
-                    <p class="card-text"><strong>Нравится: </strong>56</p>
-                    <p class="card-text"><strong>Обзор: </strong>{{ movie.description }}</p>
-                </a>
-                <a href="#"><i class="fa-regular fa-heart fa-xl card-button"></i></a>
-                <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
+            <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
+            <div class="row py-2">
+                <div class="col-auto pe-0">
+                    <a href="#"><i class="fa-regular fa-heart fa-xl card-button"></i></a>
+                </div>
+                <div class="col-auto">
+                    <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
+                </div>
             </div>
         </div>
+        <div class="col-8">
+            <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
+                <h5 class="card-title">{{ test.title }}</h5>
+                <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
+                <p class="card-text"><strong>Обзор: </strong>{{ movie.description }}</p>
+            </a>
+        </div>
+    </div>
+    <div class="row pb-2">
+        <p class="card-text mb-0"><strong>Нравится: </strong>56</p>
+        <p class="card-subtitle">Показать все комментарии (71)</p>
     </div>
 </div>
 

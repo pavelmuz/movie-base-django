@@ -2,16 +2,19 @@
 
 {% block content %}
 
-
-<div class="card container auth-card my-2">
-    <div class="card-body">
+<div class="container card profile-card mx-auto">
+    <div class="row pt-3">
         <h4 class="card-title">Вы действительно хотите удалить аккаунт?</h4>
+    </div>
+    <div class="row pb-3">
         <form action="" method="post">
             {% csrf_token %}
-            <a class="btn edit-btn" href="{% url 'account' %}" role="button">Назад</a>
-            <button type="submit" class="btn btn btn-danger mb-3">
+            <a class="btn edit-btn me-2" href="{% url 'account' %}" role="button">
+                <i class="fa-solid fa-chevron-left"></i> Назад
+            </a>
+            <button type="submit" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i> Удалить
-            </button>           
+            </button> 
         </form>
     </div>
 </div>

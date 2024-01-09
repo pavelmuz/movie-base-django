@@ -4,19 +4,32 @@
 
 {% block content %}
 
-<div class="container card movie-card mx-auto my-2">
-    <div class="row pb-3">
-        <div class="col-4">
-            <img src="{{ profile.profile_image.url }}" class="img-fluid rounded movie-card-poster mx-3 mt-3">
+<div class="container card profile-card mx-auto">
+    <div class="row py-3 px-3">
+        <div class="col-auto">
+            <img src="{{ profile.profile_image.url }}" class="avatar-img-lg">
         </div>
-        <div class="col-8">
-            <div class="card-body">
-                <h5 class="card-title">{{ profile.username }}</h5>
-                <p class="card-text">{{ profile.birthday }}</p>
-                <p class="card-text">{{ profile.email }}</p>
-                <p class="card-text">{{ profile.name }}</p>
-                <a class="btn edit-btn" href="{% url 'edit_profile' %}" role="button"><i class="fa-solid fa-pen-to-square"></i> Изменить</a>
-                <a class="btn btn-danger" href="{% url 'delete-profile' %}" role="button"><i class="fa-solid fa-trash-can"></i> Удалить аккаунт</a>
+        <div class="col-6 me-auto">
+            <h3 class="card-title">{{ profile.username }}</h3>
+            <p class="card-subtitle"><p class="card-text">{{ profile.name }}, {{ profile.birthday }}</p></p>
+        </div>
+        <div class="col-auto ms-auto">
+            <div class="dropdown dropstart">
+                <button class="btn dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis fa-xl"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item edit-link" href="{% url 'edit_profile' %}">
+                            <i class="fa-solid fa-pen-to-square"></i> Изменить
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item delete-link" href="{% url 'delete-profile' %}">
+                            <i class="fa-solid fa-trash-can"></i> Удалить аккаунт
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -24,23 +37,52 @@
 
 {% for movie in movies %}
 
+
 <div class="container card movie-card mx-auto my-2">
-    <div class="row pb-3">
+    <div class="row pt-2">
         <div class="col-4">
-            <img src="{{ movie.poster_url }}" class="img-fluid rounded movie-card-poster mx-3 mt-3">
-        </div>
-        <div class="col-8">
-            <div class="card-body">
-                <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
-                    <h5 class="card-title">{{ movie.title }}</h5>
-                    <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
-                    <p class="card-text"><strong>Нравится: </strong>56</p>
-                    <p class="card-text"><strong>Обзор: </strong>{{ movie.description }}</p>
-                </a>
-                <a href="#"><i class="fa-regular fa-heart fa-xl card-button"></i></a>
-                <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
+            <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
+            <div class="row py-2">
+                <div class="col-auto pe-0">
+                    <a href="#"><i class="fa-regular fa-heart fa-xl card-button"></i></a>
+                </div>
+                <div class="col-auto">
+                    <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
+                </div>
             </div>
         </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-auto me-auto pt-2">
+                    <h5 class="card-title">{{ movie.title }}</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="dropdown dropstart">
+                        <button class="btn dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-ellipsis fa-xl"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item edit-link" href="#">
+                                    <i class="fa-solid fa-pen-to-square"></i> Изменить
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item delete-link" href="#">
+                                    <i class="fa-solid fa-trash-can"></i> Удалить фильм
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
+            <p class="card-text"><strong>Обзор: </strong>{{ movie.description }}</p>
+        </div>
+    </div>
+    <div class="row pb-2">
+        <p class="card-text mb-0"><strong>Нравится: </strong>56</p>
+        <p class="card-subtitle">Показать все комментарии (71)</p>
     </div>
 </div>
 

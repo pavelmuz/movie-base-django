@@ -9,6 +9,8 @@ body {
 .nav-logo {
   width: 50px;
   height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .nav-link,
@@ -32,7 +34,8 @@ body {
 }
 
 .movie-card,
-.auth-card {
+.auth-card,
+.profile-card {
   background-color: #0b666a;
   color: #c3edc0;
   max-width: 700px;
@@ -46,11 +49,6 @@ body {
   color: #c3edc0;
 }
 
-.card-profile-img {
-  width: 50px;
-  height: 50px;
-}
-
 .auth-btn,
 .edit-btn {
   background-color: #c3edc0;
@@ -61,9 +59,57 @@ body {
   background-color: #9cbd99;
 }
 
-.avatar-img {
+.dropdown-btn {
+  color: #c3edc0;
+  border-color: transparent;
+}
+
+.dropdown-menu {
+  border-color: #c3edc0;
+  background-color: #0b666a;
+}
+
+.dropdown-item {
+  color: #c3edc0;
+}
+
+.dropdown-item:hover {
+  background-color: #0b666a;
+}
+
+.edit-link {
+  color: #ffff00;
+}
+
+.edit-link:hover {
+  color: #cccc00;
+}
+
+.delete-link {
+  color: #fa1e0e;
+}
+
+.delete-link:hover {
+  color: #c8180b;
+}
+
+.avatar-img-md {
   width: 50px;
   height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-img-sm {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-img-lg {
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   object-fit: cover;
 }
