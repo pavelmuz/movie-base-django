@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div class="card container auth-card my-2">
-    <div class="card-body">
+<div class="container card profile-card mx-auto">
+    <div class="row pt-2">
         <h4 class="card-title">Редактировать профиль</h4>
         <form action="" method="post">
             {% csrf_token %}
@@ -11,7 +11,12 @@
                 {{ field.label }}
                 {{ field }}
             {% endfor %}
-            <input class="btn edit-btn mb-3" type="submit" value="Сохранить">
+            <a class="btn edit-btn me-2 my-2" href="{% url 'account' %}" role="button">
+                <i class="fa-solid fa-chevron-left"></i> Назад
+            </a>
+            <button type="submit" class="btn edit-btn">
+                <i class="fa-solid fa-floppy-disk"></i> Сохранить
+            </button> 
         </form>
     </div>
 </div>
