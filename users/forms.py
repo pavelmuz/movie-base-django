@@ -7,14 +7,28 @@ from .models import Profile
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['first_name', 'email', 'username', 'password1', 'password2']
+        fields = ['username', 'email', 'first_name', 'password1', 'password2']
+
+        labels = {
+            'username': 'Имя пользователя:',
+            'email': 'Электронная почта:',
+            'first_name': 'Полное имя:',
+        }
 
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
 
+        self.fields['password1'].label = 'Пароль:'
+        self.fields['password2'].label = 'Подтвердите пароль:'
+
         for name, field in self.fields.items():
             field.widget.attrs.update({
-                'class': 'form-control'
+                'class': 'form-control my-2',
+                'style': 'color: #0b666a;'
+            })
+
+            self.fields['password1'].widget.attrs.update({
+                'type': 'password'
             })
 
 
