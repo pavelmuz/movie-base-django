@@ -4,6 +4,7 @@ movies/migrations/__pycache__
 users/__pycache__
 users/migrations/__pycache__
 static/.DS_Store
-
+api/__pycache__
+.DS_Store
 .env
 .prettierignore
