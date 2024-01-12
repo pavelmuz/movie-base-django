@@ -41,8 +41,18 @@ body {
   max-width: 700px;
 }
 
+.edit-movie-card {
+  background-color: #0b666a;
+  color: #c3edc0;
+  max-width: 700px;
+}
+
 .movie-card-poster {
   max-width: 220px;
+}
+
+.movie-poster-search {
+  max-width: 120px;
 }
 
 .card-button {

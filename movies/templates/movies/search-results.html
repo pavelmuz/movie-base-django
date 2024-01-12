@@ -1,0 +1,32 @@
+{% include "main.html" %}
+
+{% block content %}
+
+<div class="container card movie-card mx-auto mb-3">
+    <div class="row pt-2">
+        <h4 class="card-title">Выберите фильм</h4>
+    </div>
+</div>
+
+{% for movie in movies %}
+
+<div class="container card movie-card mx-auto my-1">
+    <div class="row py-2">
+        <div class="col-auto my-auto">
+            <img src="{{ movie.posterUrlPreview }}" class="rounded movie-poster-search">
+        </div>
+        <div class="col-7 my-auto">
+            <h4 class="card-title">{{ movie.nameRu }}</h4>
+            <p class="card-text">{{ movie.year }}</p>
+        </div>
+        <div class="col-auto my-auto ms-auto me-3">
+            <a class="card-link" href="{% url 'add-movie' movie.kinopoiskId %}" role="button">
+                <i class="fa-solid fa-chevron-right fa-2xl"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock content %}

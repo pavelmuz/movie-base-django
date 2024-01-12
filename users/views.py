@@ -56,7 +56,7 @@ def logout_user(request):
 
 def user_account(request):
     profile = request.user.profile
-    movies = Movie.objects.filter(owner=profile)
+    movies = Movie.objects.filter(owner=profile).order_by('-user_rating')
     context = {
         'profile': profile,
         'movies': movies
