@@ -1,0 +1,49 @@
+{% load static %}
+
+{% include "main.html" %}
+
+{% block content %}
+
+<div class="container card profile-card mx-auto">
+    <div class="row py-3 px-3">
+        <div class="col-auto">
+            <img src="{{ profile.profile_image.url }}" class="avatar-img-lg">
+        </div>
+        <div class="col-6 me-auto">
+            <h3 class="card-title">{{ profile.username }}</h3>
+            <p class="card-subtitle"><p class="card-text">{{ profile.name }}, {{ profile.birthday }}</p></p>
+        </div>
+    </div>
+</div>
+
+{% for movie in movies %}
+
+
+<div class="container card movie-card mx-auto my-2">
+    <div class="row pt-2">
+        <div class="col-4">
+            <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
+            <div class="row py-2">
+                <div class="col-auto pe-0">
+                    <a href="#"><i class="fa-regular fa-heart fa-xl card-button"></i></a>
+                </div>
+                <div class="col-auto">
+                    <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
+            <p class="card-text"><strong>Обзор: </strong>{{ movie.user_review }}</p>
+        </div>
+    </div>
+    <div class="row pb-2">
+        <p class="card-text mb-0"><strong>Нравится: </strong>56</p>
+        <p class="card-subtitle">Показать все комментарии (71)</p>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock content %}

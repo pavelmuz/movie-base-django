@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from movies.models import Movie
 from .forms import CustomUserCreationForm, ProfileForm
@@ -54,6 +55,7 @@ def logout_user(request):
     return redirect('login')
 
 
+@login_required(login_url='login')
 def user_account(request):
     profile = request.user.profile
     movies = Movie.objects.filter(owner=profile).order_by('-user_rating')
@@ -64,6 +66,17 @@ def user_account(request):
     return render(request, 'users/account.html', context)
 
 
+def user_profile(request, pk):
+    profile = Profile.objects.get(id=pk)
+    movies = Movie.objects.filter(owner=profile).order_by('-user_rating')
+    context = {
+        'profile': profile,
+        'movies': movies
+    }
+    return render(request, 'users/profile.html', context)
+
+
+@login_required(login_url='login')
 def edit_account(request):
     profile = request.user.profile
     form = ProfileForm(instance=profile)
@@ -78,6 +91,7 @@ def edit_account(request):
     return render(request, 'users/edit-profile.html', context)
 
 
+@login_required(login_url='login')
 def delete_account(request):
     profile = request.user.profile
 
@@ -89,7 +103,11 @@ def delete_account(request):
 
 
 def search_users(request):
-    profiles = Profile.objects.all()
+    if request.user.is_authenticated:
+        profiles = Profile.objects.all().exclude(
+            user=request.user).order_by('username')
+    else:
+        profiles = Profile.objects.all().order_by('username')
     context = {
         'profiles': profiles
     }

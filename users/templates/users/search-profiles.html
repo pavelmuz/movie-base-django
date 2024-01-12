@@ -22,13 +22,17 @@
 <div class="container card search-user-card mx-auto my-1">
     <div class="row">
         <div class="col-1 my-auto">
-            <img src="{{ profile.profile_image.url }}" class="avatar-img-md">
+            <a href="{% url 'profile' profile.id %}" class="card-link text-decoration-none">
+                <img src="{{ profile.profile_image.url }}" class="avatar-img-md">
+            </a>
         </div>
         <div class="col-8 my-auto">
-            <div class="card-body">
-                <h5 class="card-title">{{ profile.username }}</h5>
-                <p class="card-subtitle">{{ profile.name }}</p>
-            </div>
+            <a href="{% url 'profile' profile.id %}" class="card-link text-decoration-none">
+                <div class="card-body">
+                    <h5 class="card-title">{{ profile.username }}</h5>
+                    <p class="card-subtitle">{{ profile.name }}</p>
+                </div>
+            </a>
         </div>
         <div class="col-3 my-auto">
             <a href="#" class="btn follow-btn">Подписаться</a>
