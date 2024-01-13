@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<nav class="navbar navbar-expand-lg mb-3">
+<nav class="navbar fixed-top navbar-expand-lg mb-3">
     <div class="container-fluid">
         <a href="{% url 'movies' %}">
             <img src="{% static 'images/logo.png' %}" class="rounded-circle img-fluid mx-3 nav-logo">
@@ -68,6 +68,5 @@
         </div>
     </div>
 </nav>
-
 
 {% endblock content %}

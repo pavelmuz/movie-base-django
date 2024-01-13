@@ -40,8 +40,10 @@ def single_movie(request, pk):
 def search_movies(request):
 
     if request.method == 'POST':
-        query = request.POST['movie-title']
-        return redirect('search-results', query=query)
+        if request.POST['movie-title']:
+            query = request.POST['movie-title']
+            return redirect('search-results', query=query)
+        return redirect('search-movies')
 
     return render(request, 'movies/search-movies.html')
 

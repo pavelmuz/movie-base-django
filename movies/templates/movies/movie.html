@@ -44,7 +44,9 @@
             <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
             <p class="card-text"><strong>Описание: </strong>{{ movie.description }}</p>
             <p class="card-text"><strong>Обзор: </strong>{{ movie.user_review }}</p>
-            <a href="{{ movie.kinopoisk_url }}">Окрыть в Кинопоиск</a>
+            <a class="btn edit-btn" href="{{ movie.kinopoisk_url }}" role="button" target="_blank">
+                <i class="fa-solid fa-clapperboard"></i> Открыть на Кинопоиск
+            </a>
         </div>
     </div>
     <div class="row pb-2">

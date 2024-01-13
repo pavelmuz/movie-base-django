@@ -20,6 +20,8 @@
     
     {% include "navbar.html" %}
 
+    {% block content %}
+
     {% if messages %}
         {% for message in messages %}
             <div class="alert mx-auto
@@ -36,9 +38,6 @@
             </div>
         {% endfor %}
     {% endif %}
-
-    {% block content %}
-    
     
     {% endblock content %}
 
