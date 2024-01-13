@@ -168,3 +168,7 @@ body {
 .search-user-input::placeholder {
   color: #0b666a;
 }
+
+.alert {
+  max-width: 700px;
+}

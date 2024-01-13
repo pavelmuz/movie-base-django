@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
 from movies.models import Movie
 from .forms import CustomUserCreationForm, ProfileForm
 from .models import Profile
@@ -20,14 +21,16 @@ def login_user(request):
         try:
             user = User.objects.get(username=username)
         except:
-            print("Username doesn't exist")
+            messages.error(
+                request, 'Пользователь с таким именем не существует')
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
+            messages.success(request, 'Вы успешно вошли')
             return redirect('movies')
-        print('Username OR password is incorrect')
+        messages.error(request, 'Неверный пароль, попробуйте снова')
 
     context = {'page': 'login'}
     return render(request, 'users/login-register.html', context)
@@ -43,8 +46,8 @@ def register_user(request):
             user.username = user.username.lower()
             user.save()
             login(request, user)
-            return redirect('movies')
-        print('Error during registration')
+            return redirect('edit_profile')
+        messages.error(request, 'Ошибка при регистрации, попробуйте еще раз')
 
     context = {'page': 'register', 'form': form}
     return render(request, 'users/login-register.html', context)
@@ -52,6 +55,7 @@ def register_user(request):
 
 def logout_user(request):
     logout(request)
+    messages.success(request, 'Вы вышли из аккаунта')
     return redirect('login')
 
 
@@ -85,6 +89,7 @@ def edit_account(request):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Аккаунт успешно изменен')
             return redirect('account')
 
     context = {'form': form}
@@ -97,6 +102,7 @@ def delete_account(request):
 
     if request.method == 'POST':
         profile.delete()
+        messages.success(request, 'Аккаунт успешно удален')
         return redirect('login')
 
     return render(request, 'users/delete-account.html')
