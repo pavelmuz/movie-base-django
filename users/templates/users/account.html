@@ -42,11 +42,20 @@
     <div class="row pt-2">
         <div class="col-4">
             <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
-            <div class="row py-2">
-                <div class="col-auto pe-0">
-                    <a href="#"><i class="fa-regular fa-heart fa-xl card-button"></i></a>
-                </div>
-                <div class="col-auto">
+            <div class="row py-0">
+                <form action="" method="post" class="col-auto my-auto px-0">
+                    {% csrf_token %}
+                    {% if request.user.profile.id in movie.users_liked %}
+                        <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                            <i class="fa-solid fa-heart fa-xl card-button"></i>
+                        </button>
+                    {% else %}
+                        <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                            <i class="fa-regular fa-heart fa-xl card-button"></i>
+                        </button>
+                    {% endif %}
+                </form>
+                <div class="col-auto my-auto ps-0">
                     <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
                 </div>
             </div>
@@ -81,7 +90,7 @@
         </div>
     </div>
     <div class="row pb-2">
-        <p class="card-text mb-0"><strong>Нравится: </strong>56</p>
+        <a href="{% url 'likes' movie.id %}" class="card-link text-decoration-none"><strong>Нравится: </strong>{{ movie.get_likes }}</a>
         <p class="card-subtitle">Показать все комментарии (71)</p>
     </div>
 </div>

@@ -1,0 +1,42 @@
+{% include "main.html" %}
+
+{% block content %}
+
+<div class="container card search-user-card mx-auto my-1">
+    <div class="row">
+        <div class="col-auto py-2">
+            <a href="{% url 'movies' %}" class="card-link text-decoration-none"><i class="fa-solid fa-chevron-left fa-xl"></i> Назад</a>
+        </div>
+    </div>
+    <div class="row">
+        <h4>{{ movie.title }} нравится:</h4>    
+    </div>
+</div>
+
+{% for like in likes %}
+
+<div class="container card search-user-card mx-auto my-1">
+    <div class="row">
+        <div class="col-1 my-auto">
+            <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
+                <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
+            </a>
+        </div>
+        <div class="col-8 my-auto">
+            <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
+                <div class="card-body">
+                    <h5 class="card-title">{{ like.owner.username }}</h5>
+                    <p class="card-subtitle">{{ like.owner.name }}</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-3 my-auto">
+            <a href="#" class="btn follow-btn">Подписаться</a>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+{% endblock content %}

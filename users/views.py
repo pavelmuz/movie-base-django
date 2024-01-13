@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from movies.models import Movie
+from movies.utils import like_movie, unlike_movie, handle_liking_feed
 from .forms import CustomUserCreationForm, ProfileForm
 from .models import Profile
 
@@ -63,6 +64,9 @@ def logout_user(request):
 def user_account(request):
     profile = request.user.profile
     movies = Movie.objects.filter(owner=profile).order_by('-user_rating')
+
+    handle_liking_feed(request, movies, 'account')
+
     context = {
         'profile': profile,
         'movies': movies
@@ -73,6 +77,20 @@ def user_account(request):
 def user_profile(request, pk):
     profile = Profile.objects.get(id=pk)
     movies = Movie.objects.filter(owner=profile).order_by('-user_rating')
+
+    if request.method == 'POST':
+        for movie in movies:
+            if movie.title in request.POST:
+                if request.user.profile.id in movie.users_liked:
+                    unlike_movie(request, movie)
+                    return redirect('profile', profile.id)
+                else:
+                    like_movie(
+                        profile=request.user.profile,
+                        movie=movie
+                    )
+                    return redirect('profile', profile.id)
+
     context = {
         'profile': profile,
         'movies': movies

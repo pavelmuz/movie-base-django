@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Movie
-from .utils import get_movies, get_movie
+from .utils import get_movies, get_movie, like_movie, unlike_movie, handle_liking_feed
 from .forms import MovieForm
 
 # Create your views here.
@@ -9,6 +9,7 @@ from .forms import MovieForm
 
 def feed(request):
     movies = Movie.objects.all().order_by('-created')
+    handle_liking_feed(request, movies, 'movies')
     context = {
         'movies': movies
     }
@@ -17,6 +18,18 @@ def feed(request):
 
 def single_movie(request, pk):
     movie = Movie.objects.get(id=pk)
+
+    if request.method == 'POST':
+        if request.user.profile.id in movie.users_liked:
+            unlike_movie(request, movie)
+            return redirect('movie', movie.id)
+        else:
+            like_movie(
+                profile=request.user.profile,
+                movie=movie
+            )
+            return redirect('movie', movie.id)
+
     context = {
         'movie': movie
     }
@@ -99,3 +112,14 @@ def delete_movie(request, pk):
         'movie': movie
     }
     return render(request, 'movies/delete-movie.html', context)
+
+
+@login_required(login_url='login')
+def likes_view(request, pk):
+    movie = Movie.objects.get(id=pk)
+    likes = movie.like_set.all()
+    context = {
+        'movie': movie,
+        'likes': likes
+    }
+    return render(request, 'movies/likes.html', context)
