@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Movie
 from .utils import get_movies, get_movie, like_movie, unlike_movie, handle_liking_feed
-from .forms import MovieForm
+from .forms import MovieForm, CommentForm
 
 # Create your views here.
 
@@ -125,3 +125,24 @@ def likes_view(request, pk):
         'likes': likes
     }
     return render(request, 'movies/likes.html', context)
+
+
+@login_required(login_url='login')
+def comments(request, pk):
+    movie = Movie.objects.get(id=pk)
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.owner = request.user.profile
+            comment.movie = movie
+            comment.save()
+            return redirect('comments', movie.id)
+
+    context = {
+        'movie': movie,
+        'form': form
+    }
+    return render(request, 'movies/comments.html', context)

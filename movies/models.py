@@ -2,8 +2,6 @@ import uuid
 from django.db import models
 from users.models import Profile
 
-# Create your models here.
-
 
 class Movie(models.Model):
     owner = models.ForeignKey(
@@ -22,7 +20,7 @@ class Movie(models.Model):
         return self.title
 
     @property
-    def get_likes(self):
+    def likes_count(self):
         likes = self.like_set.all()
         return likes.count()
 
@@ -30,6 +28,21 @@ class Movie(models.Model):
     def users_liked(self):
         liked = self.like_set.all().values_list('owner__id', flat=True)
         return liked
+
+    @property
+    def count_comments(self):
+        comments = self.comment_set.all()
+        return comments.count()
+
+    @property
+    def get_card_comments(self):
+        comments = self.comment_set.filter(movie=self).order_by('created')[2:]
+        return comments
+
+    @property
+    def get_comments(self):
+        comments = self.comment_set.filter(movie=self).order_by('created')
+        return comments
 
 
 class Like(models.Model):
@@ -40,3 +53,15 @@ class Like(models.Model):
 
     def __str__(self):
         return f'{self.owner.username} liked movie: {self.movie}'
+
+
+class Comment(models.Model):
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    body = models.TextField(max_length=300)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True,
+                          primary_key=True, editable=False)
+
+    def __str__(self):
+        return f'{self.owner.username} commented {self.movie}'

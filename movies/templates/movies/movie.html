@@ -7,7 +7,11 @@
 <div class="container card movie-card mx-auto">
     <div class="row">
         <div class="col-auto pt-2">
-            <a href="{% url 'movies' %}" class="card-link text-decoration-none"><i class="fa-solid fa-chevron-left fa-xl"></i> Назад</a>
+            {% if request.GET.origin == 'profile' %}
+                <a href="{% url 'profile' movie.owner.id %}" class="card-link text-decoration-none"><i class="fa-solid fa-chevron-left fa-xl"></i> Назад</a>
+            {% else %}
+                <a href="{% url request.GET.origin %}" class="card-link text-decoration-none"><i class="fa-solid fa-chevron-left fa-xl"></i> Назад</a>
+            {% endif %}
         </div>
     </div>
     <div class="row py-2">
@@ -49,8 +53,16 @@
             </a>
         </div>
     </div>
+    <div class="row">
+        <a href="{% url 'likes' movie.id %}" class="card-link text-decoration-none"><strong>Нравится: </strong>{{ movie.likes_count }}</a>
+    </div>
     <div class="row pb-2">
-        <a href="{% url 'likes' movie.id %}" class="card-link text-decoration-none"><strong>Нравится: </strong>{{ movie.get_likes }}</a>
+        {% for comment in movie.get_comments %}
+        <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
+        {% endfor %}
+    </div>
+    <div class="row mb-2">
+        <p class="card-subtitle">Показать все комментарии ({{ movie.count_comments }})</p>
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Movie
+from .models import Movie, Comment
 
 
 class MovieForm(ModelForm):
@@ -22,5 +22,24 @@ class MovieForm(ModelForm):
             })
 
         self.fields['user_review'].widget.attrs.update({
+            'rows': '4'
+        })
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['body']
+
+        labels = {
+            'body': 'Комментарий:'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+
+        self.fields['body'].widget.attrs.update({
+            'class': 'form-control my-2',
+            'style': 'color: #0b666a;',
             'rows': '4'
         })
