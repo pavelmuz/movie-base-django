@@ -1,0 +1,186 @@
+body {
+  background-color: #c3edc0;
+  padding-top: 5rem;
+}
+
+.navbar {
+  background-color: #1b3333;
+}
+
+.nav-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-link,
+.navbar-brand,
+.card-link,
+.modal-close {
+  color: #c3edc0;
+}
+
+.nav-link:hover,
+.navbar-brand:hover,
+.modal-close:hover {
+  color: #9cbd99;
+}
+
+.link-active {
+  color: #9cbd99;
+}
+
+.navbar-toggler {
+  color: #c3edc0;
+  border-color: #c3edc0;
+}
+
+.movie-card,
+.auth-card,
+.profile-card,
+.modal-content {
+  background-color: #0b666a;
+  color: #c3edc0;
+  max-width: 700px;
+}
+
+.edit-movie-card {
+  background-color: #0b666a;
+  color: #c3edc0;
+  max-width: 700px;
+}
+
+.movie-card-poster {
+  max-width: 220px;
+}
+
+.movie-poster-search {
+  max-width: 120px;
+}
+
+.card-button {
+  color: #c3edc0;
+}
+
+.auth-btn,
+.edit-btn {
+  background-color: #c3edc0;
+}
+
+.auth-btn:hover,
+.edit-btn:hover {
+  background-color: #9cbd99;
+}
+
+.dropdown-btn {
+  color: #c3edc0;
+  border-color: transparent;
+}
+
+.dropdown-menu {
+  border-color: #c3edc0;
+  background-color: #0b666a;
+}
+
+.dropdown-item {
+  color: #c3edc0;
+}
+
+.dropdown-item:hover {
+  background-color: #0b666a;
+}
+
+.edit-link {
+  color: #ffff00;
+}
+
+.edit-link:hover {
+  color: #cccc00;
+}
+
+.delete-link {
+  color: #fa1e0e;
+}
+
+.delete-link:hover {
+  color: #c8180b;
+}
+
+.avatar-img-md {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-img-sm {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-img-lg {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.search-user-card {
+  background-color: #0b666a;
+  color: #c3edc0;
+  max-width: 600px;
+}
+
+.follow-btn {
+  background-color: transparent;
+  border-color: #c3edc0;
+  color: #c3edc0;
+}
+
+.follow-btn:hover {
+  background-color: #c3edc0;
+  color: #0b666a;
+}
+
+.following-btn {
+  background-color: #c3edc0;
+}
+
+.following-btn:hover {
+  background-color: #9cbd99;
+}
+
+.search-user {
+  max-width: 600px;
+}
+
+.search-user-btn {
+  background-color: transparent;
+  border-color: #0b666a;
+  color: #0b666a;
+  width: 120px;
+}
+
+.search-user-btn:hover {
+  background-color: #0b666a;
+  color: #c3edc0;
+}
+
+.search-user-input::placeholder {
+  color: #0b666a;
+}
+
+.alert {
+  max-width: 700px;
+}
+
+.modal-link {
+  cursor: pointer;
+}
+
+.modal-header {
+  border-bottom: 2px solid #c3edc0;
+}
