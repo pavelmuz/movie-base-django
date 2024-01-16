@@ -11,7 +11,12 @@
         </div>
         <div class="col-6 me-auto">
             <h3 class="card-title">{{ profile.username }}</h3>
-            <p class="card-subtitle"><p class="card-text">{{ profile.name }}, {{ profile.birthday }}</p></p>
+            <p class="card-subtitle"><p class="card-text">{{ profile.name }}
+                {% if profile.birthday %}
+                , {{ profile.birthday }}
+                {% endif %}
+            </p>
+            </p>
         </div>
         <div class="col-auto ms-auto">
             <div class="dropdown dropstart">
@@ -91,7 +96,7 @@
             </div>
             <div class="col-8">
                 <div class="row">
-                    <div class="col-auto me-auto pt-2">
+                    <div class="col-8 me-auto pt-2">
                         <h5 class="card-title">{{ movie.title }}</h5>
                     </div>
                     <div class="col-auto">

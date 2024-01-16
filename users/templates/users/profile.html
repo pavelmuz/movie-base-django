@@ -11,7 +11,12 @@
         </div>
         <div class="col-6 me-auto">
             <h3 class="card-title">{{ profile.username }}</h3>
-            <p class="card-subtitle"><p class="card-text">{{ profile.name }}, {{ profile.birthday }}</p></p>
+            <p class="card-subtitle"><p class="card-text">{{ profile.name }}
+                {% if profile.birthday %}
+                , {{ profile.birthday }}
+                {% endif %}
+            </p>
+            </p>
         </div>
     </div>
 </div>

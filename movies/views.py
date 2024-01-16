@@ -127,6 +127,7 @@ def delete_movie(request, pk):
         return redirect('account')
 
     context = {
-        'movie': movie
+        'movie': movie,
+        'delete': 'movie'
     }
-    return render(request, 'movies/delete-movie.html', context)
+    return render(request, 'delete-template.html', context)

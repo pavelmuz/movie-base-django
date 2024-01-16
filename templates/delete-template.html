@@ -4,7 +4,11 @@
 
 <div class="container card profile-card mx-auto">
     <div class="row pt-2">
-        <h4 class="card-title">Вы действительно хотите удалить {{ movie.title }}?</h4>
+        {% if delete == 'movie' %}
+            <h4 class="card-title">Вы действительно хотите удалить {{ movie.title }}?</h4>
+        {% else %}
+            <h4 class="card-title">Вы действительно хотите удалить аккаунт?</h4>
+        {% endif %}
     </div>
     <div class="row pb-3">
         <form action="" method="post">

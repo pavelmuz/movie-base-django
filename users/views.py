@@ -135,7 +135,7 @@ def delete_account(request):
         messages.success(request, 'Аккаунт успешно удален')
         return redirect('login')
 
-    return render(request, 'users/delete-account.html')
+    return render(request, 'delete-template.html')
 
 
 def search_users(request):
