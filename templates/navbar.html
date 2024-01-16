@@ -29,10 +29,10 @@
                 {% if request.user.is_authenticated %}
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'search-movies' %}">Добавить фильм</a>
+                    <a class="nav-link{% if request.path == '/search-movies/' %} link-active{% endif %}" href="{% url 'search-movies' %}">Добавить фильм</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Уведомления</a>
+                    <a class="nav-link{% if request.path == '/users/notifications/' %} link-active{% endif %}" href="{% url 'notifications' %}">Уведомления</a>
                 </li>
                 <li class="nav-item">
                     <a 

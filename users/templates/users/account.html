@@ -35,75 +35,146 @@
     </div>
 </div>
 
-{% for movie in movies %}
+<div id="movie-feed">
 
+    {% for movie in movies %}
 
-<div class="container card movie-card mx-auto my-2">
-    <div class="row pt-2">
-        <div class="col-4">
-            <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
-            <div class="row py-0">
-                <form action="" method="post" class="col-auto my-auto px-0">
-                    {% csrf_token %}
-                    {% if request.user.profile.id in movie.users_liked %}
-                        <button type="submit" class="btn card-button" name="{{ movie.title }}">
-                            <i class="fa-solid fa-heart fa-xl card-button"></i>
-                        </button>
-                    {% else %}
-                        <button type="submit" class="btn card-button" name="{{ movie.title }}">
-                            <i class="fa-regular fa-heart fa-xl card-button"></i>
-                        </button>
-                    {% endif %}
-                </form>
-                <div class="col-auto my-auto ps-0">
-                    <a href="#"><i class="fa-regular fa-message fa-xl card-button"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="row">
-                <div class="col-auto me-auto pt-2">
-                    <h5 class="card-title">{{ movie.title }}</h5>
-                </div>
-                <div class="col-auto">
-                    <div class="dropdown dropstart">
-                        <button class="btn dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-ellipsis fa-xl"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item edit-link" href="{% url 'edit-movie' movie.id %}">
-                                    <i class="fa-solid fa-pen-to-square"></i> Изменить
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item delete-link" href="{% url 'delete-movie' movie.id %}">
-                                    <i class="fa-solid fa-trash-can"></i> Удалить фильм
-                                </a>
-                            </li>
-                        </ul>
+    <div class="container card movie-card mx-auto my-2">
+        <div class="row pt-2">
+            <div class="col-4">
+                <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
+                <div class="row py-0">
+                    <form action="" method="post" class="col-auto my-auto px-0">
+                        {% csrf_token %}
+                        {% if request.user.profile.id in movie.users_liked %}
+                            <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                                <i class="fa-solid fa-heart fa-xl card-button"></i>
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                                <i class="fa-regular fa-heart fa-xl card-button"></i>
+                            </button>
+                        {% endif %}
+                    </form>
+                    <div class="col-auto my-auto ps-0">
+                        <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#comment-{{ movie.id }}"><i class="fa-regular fa-message fa-xl card-button" ></i></p>
+                        <div class="modal fade" id="comment-{{ movie.id }}" tabindex="-1"  aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5">Комментарий:</h1>
+                                        <button class="btn modal-close" data-bs-dismiss="modal">
+                                            <i class="fa-solid fa-xmark fa-xl"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                
+                                        <div class="row">
+                                            <form action="" method="post" class="pb-2">
+                                                {% csrf_token %}
+                                                {% for field in form %}
+                                                    {{ field.label }}
+                                                    {{ field }}
+                                                {% endfor %}
+                                                <button type="submit" class="btn edit-btn" name="comment-{{ movie.id }}">
+                                                    Добавить
+                                                </button>
+                                            </form>
+                                        </div>
+                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <a href="{% url 'movie' movie.id %}?origin=account" class="card-link text-decoration-none">
-                <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
-                <p class="card-text"><strong>Обзор: </strong>{{ movie.user_review }}</p>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-auto me-auto pt-2">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                    </div>
+                    <div class="col-auto">
+                        <div class="dropdown dropstart">
+                            <button class="btn dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis fa-xl"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item edit-link" href="{% url 'edit-movie' movie.id %}">
+                                        <i class="fa-solid fa-pen-to-square"></i> Изменить
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item delete-link" href="{% url 'delete-movie' movie.id %}">
+                                        <i class="fa-solid fa-trash-can"></i> Удалить фильм
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
+                    <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
+                    <p class="card-text"><strong>Обзор: </strong>{{ movie.user_review }}</p>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#modal-{{ movie.id }}">
+                <strong>Нравится: </strong>{{ movie.like_set.all.count }}
+            </p>
+            <div class="modal fade" id="modal-{{ movie.id }}" tabindex="-1"  aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Нравится:</h1>
+                            <button class="btn modal-close" data-bs-dismiss="modal">
+                                <i class="fa-solid fa-xmark fa-xl"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+    
+                            {% for like in movie.like_set.all %}
+                            <div class="row">
+                                <div class="col-auto my-auto pe-0">
+                                    <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
+                                        <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
+                                    </a>
+                                </div>
+                                <div class="col-6 my-auto">
+                                    <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ like.owner.username }}</h5>
+                                            <p class="card-subtitle">{{ like.owner.name }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-3 my-auto ms-auto me-4">
+                                    <a href="#" class="btn follow-btn">Подписаться</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pb-2">
+            {% for comment in movie.get_card_comments %}
+                <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
+            {% endfor %}
+        </div>
+        <div class="row mb-2">
+            <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
+                <p class="card-subtitle">Показать все комментарии ({{ movie.comment_set.all.count }})</p>
             </a>
         </div>
     </div>
-    <div class="row">
-        <a href="{% url 'likes' movie.id %}" class="card-link text-decoration-none"><strong>Нравится: </strong>{{ movie.likes_count }}</a>
-    </div>
-    <div class="row pb-2">
-        {% for comment in movie.get_card_comments %}
-            <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
-        {% endfor %}
-    </div>
-    <div class="row mb-2">
-        <p class="card-subtitle">Показать все комментарии ({{ movie.count_comments }})</p>
-    </div>
-</div>
+    
+    {% endfor %}
 
-{% endfor %}
+</div>
 
 {% endblock content %}

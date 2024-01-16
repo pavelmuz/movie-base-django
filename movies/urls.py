@@ -9,6 +9,4 @@ urlpatterns = [
     path('add-movie/<int:kinopoisk_id>/', views.add_movie, name='add-movie'),
     path('delete-movie/<str:pk>/', views.delete_movie, name='delete-movie'),
     path('edit-movie/<str:pk>/', views.edit_movie, name='edit-movie'),
-    path('likes/<str:pk>/', views.likes_view, name='likes'),
-    path('comments/<str:pk>/', views.comments, name='comments'),
 ]

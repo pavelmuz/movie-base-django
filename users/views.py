@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from movies.models import Movie
-from movies.utils import like_movie, unlike_movie, handle_liking_feed
+from movies.forms import CommentForm
+from movies.utils import like_movie, unlike_movie, handle_liking_feed, add_comment
 from .forms import CustomUserCreationForm, ProfileForm
 from .models import Profile
 
@@ -63,19 +64,21 @@ def logout_user(request):
 @login_required(login_url='login')
 def user_account(request):
     profile = request.user.profile
+    form = CommentForm()
     movies = Movie.objects.filter(owner=profile).order_by('-user_rating')
-
     handle_liking_feed(request, movies, 'account')
-
+    add_comment(request, movies, 'account')
     context = {
         'profile': profile,
-        'movies': movies
+        'movies': movies,
+        'form': form
     }
     return render(request, 'users/account.html', context)
 
 
 def user_profile(request, pk):
     profile = Profile.objects.get(id=pk)
+    form = CommentForm()
     movies = Movie.objects.filter(owner=profile).order_by('-user_rating')
 
     if request.method == 'POST':
@@ -90,10 +93,19 @@ def user_profile(request, pk):
                         movie=movie
                     )
                     return redirect('profile', profile.id)
+            else:
+                form = CommentForm(request.POST)
+                if form.is_valid():
+                    comment = form.save(commit=False)
+                    comment.owner = request.user.profile
+                    comment.movie = movie
+                    comment.save()
+                    return redirect('profile', profile.id)
 
     context = {
         'profile': profile,
-        'movies': movies
+        'movies': movies,
+        'form': form
     }
     return render(request, 'users/profile.html', context)
 
@@ -136,3 +148,9 @@ def search_users(request):
         'profiles': profiles
     }
     return render(request, 'users/search-profiles.html', context)
+
+
+@login_required(login_url='login')
+def notifications(request):
+    context = {}
+    return render(request, 'users/notifications.html', context)

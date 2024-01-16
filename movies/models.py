@@ -20,28 +20,13 @@ class Movie(models.Model):
         return self.title
 
     @property
-    def likes_count(self):
-        likes = self.like_set.all()
-        return likes.count()
-
-    @property
     def users_liked(self):
         liked = self.like_set.all().values_list('owner__id', flat=True)
         return liked
 
     @property
-    def count_comments(self):
-        comments = self.comment_set.all()
-        return comments.count()
-
-    @property
     def get_card_comments(self):
-        comments = self.comment_set.filter(movie=self).order_by('created')[2:]
-        return comments
-
-    @property
-    def get_comments(self):
-        comments = self.comment_set.filter(movie=self).order_by('created')
+        comments = self.comment_set.filter(movie=self).order_by('created')[:2]
         return comments
 
 

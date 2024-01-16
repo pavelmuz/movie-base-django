@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Movie
-from .utils import get_movies, get_movie, like_movie, unlike_movie, handle_liking_feed
+from .utils import get_movies, get_movie, like_movie, unlike_movie, handle_liking_feed, add_comment
 from .forms import MovieForm, CommentForm
 
 # Create your views here.
@@ -9,29 +9,45 @@ from .forms import MovieForm, CommentForm
 
 def feed(request):
     movies = Movie.objects.all().order_by('-created')
+    form = CommentForm()
     handle_liking_feed(request, movies, 'movies')
+    add_comment(request, movies, 'movies')
     context = {
-        'movies': movies
+        'movies': movies,
+        'form': form
     }
     return render(request, 'movies/movies.html', context)
 
 
 def single_movie(request, pk):
     movie = Movie.objects.get(id=pk)
+    movie_comments = movie.comment_set.filter(movie=movie).order_by('created')
+    form = CommentForm()
 
     if request.method == 'POST':
-        if request.user.profile.id in movie.users_liked:
-            unlike_movie(request, movie)
-            return redirect('movie', movie.id)
+        if movie.title in request.POST:
+            if request.user.profile.id in movie.users_liked:
+                unlike_movie(request, movie)
+                return redirect('movie', movie.id)
+            else:
+                like_movie(
+                    profile=request.user.profile,
+                    movie=movie
+                )
+                return redirect('movie', movie.id)
         else:
-            like_movie(
-                profile=request.user.profile,
-                movie=movie
-            )
-            return redirect('movie', movie.id)
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.owner = request.user.profile
+                comment.movie = movie
+                comment.save()
+                return redirect('movie', movie.id)
 
     context = {
-        'movie': movie
+        'movie': movie,
+        'comments': movie_comments,
+        'form': form
     }
     return render(request, 'movies/movie.html', context)
 
@@ -114,35 +130,3 @@ def delete_movie(request, pk):
         'movie': movie
     }
     return render(request, 'movies/delete-movie.html', context)
-
-
-@login_required(login_url='login')
-def likes_view(request, pk):
-    movie = Movie.objects.get(id=pk)
-    likes = movie.like_set.all()
-    context = {
-        'movie': movie,
-        'likes': likes
-    }
-    return render(request, 'movies/likes.html', context)
-
-
-@login_required(login_url='login')
-def comments(request, pk):
-    movie = Movie.objects.get(id=pk)
-    form = CommentForm()
-
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.owner = request.user.profile
-            comment.movie = movie
-            comment.save()
-            return redirect('comments', movie.id)
-
-    context = {
-        'movie': movie,
-        'form': form
-    }
-    return render(request, 'movies/comments.html', context)

@@ -3,6 +3,7 @@ import requests
 from dotenv import load_dotenv
 from django.shortcuts import redirect
 from .models import Like
+from .forms import CommentForm
 
 
 load_dotenv()
@@ -57,7 +58,7 @@ def unlike_movie(request, movie):
 def handle_liking_feed(request, movies, redirect_page):
     if request.method == 'POST':
         for movie in movies:
-            if movie.title in request.POST:
+            if f'movie-{movie.id}' in request.POST:
                 if request.user.profile.id in movie.users_liked:
                     unlike_movie(request, movie)
                     return redirect(redirect_page)
@@ -66,4 +67,17 @@ def handle_liking_feed(request, movies, redirect_page):
                         profile=request.user.profile,
                         movie=movie
                     )
+                    return redirect(redirect_page)
+
+
+def add_comment(request, movies, redirect_page):
+    if request.method == 'POST':
+        for movie in movies:
+            if f'comment-{movie.id}' in request.POST:
+                form = CommentForm(request.POST)
+                if form.is_valid():
+                    comment = form.save(commit=False)
+                    comment.owner = request.user.profile
+                    comment.movie = movie
+                    comment.save()
                     return redirect(redirect_page)

@@ -32,7 +32,7 @@ class CommentForm(ModelForm):
         fields = ['body']
 
         labels = {
-            'body': 'Комментарий:'
+            'body': 'Добавить комментарий:'
         }
 
     def __init__(self, *args, **kwargs):

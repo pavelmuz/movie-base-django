@@ -16,12 +16,14 @@ body {
 
 .nav-link,
 .navbar-brand,
-.card-link {
+.card-link,
+.modal-close {
   color: #c3edc0;
 }
 
 .nav-link:hover,
-.navbar-brand:hover {
+.navbar-brand:hover,
+.modal-close:hover {
   color: #9cbd99;
 }
 
@@ -36,7 +38,8 @@ body {
 
 .movie-card,
 .auth-card,
-.profile-card {
+.profile-card,
+.modal-content {
   background-color: #0b666a;
   color: #c3edc0;
   max-width: 700px;
@@ -172,4 +175,12 @@ body {
 
 .alert {
   max-width: 700px;
+}
+
+.modal-link {
+  cursor: pointer;
+}
+
+.modal-header {
+  border-bottom: 2px solid #c3edc0;
 }
