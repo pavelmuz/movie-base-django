@@ -141,6 +141,7 @@ body {
   background-color: transparent;
   border-color: #c3edc0;
   color: #c3edc0;
+  width: 130px;
 }
 
 .follow-btn:hover {
@@ -150,10 +151,12 @@ body {
 
 .following-btn {
   background-color: #c3edc0;
+  width: 130px;
 }
 
 .following-btn:hover {
-  background-color: #9cbd99;
+  background-color: transparent;
+  border-color: #c3edc0;
 }
 
 .search-user {

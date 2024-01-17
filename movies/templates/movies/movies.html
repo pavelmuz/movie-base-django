@@ -7,8 +7,9 @@
 <div id="movie-feed">
 
     {% for movie in movies %}
-
+    <!-- Movie card -->
     <div class="container card movie-card mx-auto mb-2">
+        <!-- Movie owner info -->
         <div class="row py-2">
             <div class="col-auto">
                 <img src="{{ movie.owner.profile_image.url }}" class="avatar-img-sm">
@@ -19,12 +20,13 @@
         </div>
         <div class="row">
             <div class="col-4">
+                <!-- Movie poster -->
                 <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
                 {% if request.user.is_authenticated %}
                     <div class="row py-0">
+                        <!-- Like and unlike buttons -->
                         <form action="" method="post" class="col-auto my-auto px-0">
                             {% csrf_token %}
-        
                             {% if request.user.profile.id in movie.users_liked %}
                                 <button type="submit" class="btn card-button" name="movie-{{ movie.id }}">
                                     <i class="fa-solid fa-heart fa-xl card-button"></i>
@@ -34,21 +36,24 @@
                                     <i class="fa-regular fa-heart fa-xl card-button"></i>
                                 </button>
                             {% endif %}
-            
                         </form>
+                        <!-- New comment section -->
                         <div class="col-auto my-auto ps-0">
+                            <!-- Add comment modal open button -->
                             <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#comment-{{ movie.id }}"><i class="fa-regular fa-message fa-xl card-button" ></i></p>
+                            <!-- Add comment modal -->
                             <div class="modal fade" id="comment-{{ movie.id }}" tabindex="-1"  aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <div class="modal-header">
+                                            <!-- Modal title -->
                                             <h1 class="modal-title fs-5">Комментарий:</h1>
                                             <button class="btn modal-close" data-bs-dismiss="modal">
                                                 <i class="fa-solid fa-xmark fa-xl"></i>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                    
+                                            <!-- Add new comment form -->
                                             <div class="row">
                                                 <form action="" method="post" class="pb-2">
                                                     {% csrf_token %}
@@ -61,7 +66,6 @@
                                                     </button>
                                                 </form>
                                             </div>
-                    
                                         </div>
                                     </div>
                                 </div>
@@ -70,6 +74,7 @@
                     </div>
                 {% endif %}            
             </div>
+            <!-- Movie info -->
             <div class="col-8">
                 <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
                     <h5 class="card-title">{{ movie.title }}</h5>
@@ -78,28 +83,34 @@
                 </a>
             </div>
         </div>
+        <!-- Total likes -->
         <div class="row">
+            <!-- Likes modal open buuton -->
             <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#modal-{{ movie.id }}">
                 <strong>Нравится: </strong>{{ movie.like_set.all.count }}
             </p>
+            <!-- Likes modal -->
             <div class="modal fade" id="modal-{{ movie.id }}" tabindex="-1"  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <!-- Modal title -->
                             <h1 class="modal-title fs-5">Нравится:</h1>
                             <button class="btn modal-close" data-bs-dismiss="modal">
                                 <i class="fa-solid fa-xmark fa-xl"></i>
                             </button>
                         </div>
                         <div class="modal-body">
-    
+                            <!-- List of users liked -->
                             {% for like in movie.like_set.all %}
                             <div class="row">
+                                <!-- User avatar -->
                                 <div class="col-auto my-auto pe-0">
                                     <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
                                         <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
                                     </a>
                                 </div>
+                                <!-- User info -->
                                 <div class="col-6 my-auto">
                                     <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
                                         <div class="card-body">
@@ -108,6 +119,7 @@
                                         </div>
                                     </a>
                                 </div>
+                                <!-- Follow/unfollow buttons -->
                                 <div class="col-3 my-auto ms-auto me-4">
                                     {% if request.user.is_authenticated %}
                                     <a href="#" class="btn follow-btn">Подписаться</a>
@@ -115,24 +127,24 @@
                                 </div>
                             </div>
                             {% endfor %}
-    
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Last 2 comments -->
         <div class="row pb-2">
             {% for comment in movie.get_card_comments %}
                 <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
             {% endfor %}
         </div>
+        <!-- Show all comments button -->
         <div class="row mb-2">
             <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
                 <p class="card-subtitle">Показать все комментарии ({{ movie.comment_set.all.count }})</p>
             </a>
         </div>
     </div>
-    
     {% endfor %}
     
 </div>

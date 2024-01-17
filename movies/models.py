@@ -32,7 +32,8 @@ class Movie(models.Model):
 
 class Like(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(
+        Movie, on_delete=models.CASCADE)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
 

@@ -22,6 +22,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.username
 
+    @property
+    def is_followed(self):
+        following = self.following_set.all().values_list('follower__id', flat=True)
+        return following
+
 
 class Follow(models.Model):
     follower = models.ForeignKey(

@@ -4,13 +4,16 @@
 
 <div class="container card movie-card">
     <div class="row p-2">
+        <!-- Title -->
         <h4 class="card-title">Найти фильм</h4>
+        <!-- Search movie form -->
         <form action="" method="post">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="movie-title" class="form-label">Название:</label>
                 <input type="text" class="form-control" name="movie-title" id="movie-title" style="color: #0b666a;">
             </div>
+            <!-- Back button -->
             <button type="submit" class="btn auth-btn">
                 <i class="fa-solid fa-magnifying-glass"></i> Найти
             </button>

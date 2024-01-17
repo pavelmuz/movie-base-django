@@ -7,12 +7,15 @@
         <h4 class="card-title">Редактировать фильм</h4>
     </div>
     <div class="row pb-2">
+        <!-- Movie poster -->
         <div class="col-auto">
             <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
         </div>
+        <!-- Movie info -->
         <div class="col-7">
             <h4 class="card-title">{{ movie.title }}</h4>
             <p class="card-text">{{ movie.release_year }}</p>
+            <!-- Form for editing movie card -->
             <form action="" method="post">
                 {% csrf_token %}
                 {% for field in form %}

@@ -36,7 +36,21 @@
         </div>
         <div class="col-3 my-auto">
             {% if request.user.is_authenticated %}
-                <a href="#" class="btn follow-btn">Подписаться</a>
+                {% if request.user.profile.id in profile.is_followed %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn following-btn" name="unfollow-{{ profile.id }}">
+                        Подписан
+                    </button>
+                </form>
+                {% else %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn follow-btn" name="follow-{{ profile.id }}">
+                        Подписаться
+                    </button>
+                </form>
+                {% endif %}
             {% endif %}
         </div>
     </div>

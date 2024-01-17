@@ -5,12 +5,13 @@
 {% block content %}
 
 <div class="container card movie-card mx-auto">
+    <!-- Card back button -->
     <div class="row pb-2">
         <div class="col-auto pt-2">
             <a href="#" class="card-link text-decoration-none" id="back-button"><i class="fa-solid fa-chevron-left fa-xl"></i> Назад</a>
         </div>
     </div>
-
+    <!-- Card owner info if not current user -->
     {% if request.user != movie.owner.user %}
         <a href="{% url 'profile' movie.owner.id %}" class="card-link text-decoration-none">
             <div class="row py-2">
@@ -26,8 +27,10 @@
 
     <div class="row">
         <div class="col-4">
+            <!-- Movie poster -->
             <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
             {% if request.user.is_authenticated %}
+                <!-- Like and unlike buttons -->
                 <div class="row py-0">
                     <form action="" method="post" class="col-auto my-auto px-0">
                         {% csrf_token %}
@@ -44,27 +47,32 @@
                 </div>
             {% endif %}
             <div class="row">
+                <!-- Show liked users modal button -->
                 <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <strong>Нравится: </strong>{{ movie.like_set.all.count }}
                 </p>
+                <!-- Liked users modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
+                                <!-- Modal title -->
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Нравится:</h1>
                                 <button class="btn modal-close" data-bs-dismiss="modal">
                                     <i class="fa-solid fa-xmark fa-xl"></i>
                                 </button>
                             </div>
                             <div class="modal-body">
-        
+                                <!-- List of users liked -->
                                 {% for like in movie.like_set.all %}
                                 <div class="row">
+                                    <!-- User avatar -->
                                     <div class="col-auto my-auto pe-0">
                                         <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
                                             <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
                                         </a>
                                     </div>
+                                    <!-- User info -->
                                     <div class="col-6 my-auto">
                                         <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
                                             <div class="card-body">
@@ -73,6 +81,7 @@
                                             </div>
                                         </a>
                                     </div>
+                                    <!-- Follow button -->
                                     <div class="col-3 my-auto ms-auto me-4">
                                         <a href="#" class="btn follow-btn">Подписаться</a>
                                     </div>
@@ -85,6 +94,7 @@
                 </div>
             </div>
         </div>
+        <!-- Movie info -->
         <div class="col-8 pb-4">
             <h5 class="card-title">{{ movie.title }}</h5>
             <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
@@ -95,12 +105,13 @@
             </a>
         </div>
     </div>
-
+    <!-- Movie comments -->
     <div class="row pb-2">
         {% for comment in comments %}
         <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
         {% endfor %}
     </div>
+    <!-- Add comment form -->
     <div class="row mb-2">
         {% if request.user.is_authenticated %}
             <form action="" method="post" class="pb-2">
@@ -118,7 +129,6 @@
                 Войдите, чтобы оставить комментарий
             </a>
         {% endif %}
-        
     </div>
 </div>
 

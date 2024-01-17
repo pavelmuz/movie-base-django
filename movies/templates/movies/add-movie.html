@@ -7,9 +7,11 @@
         <h4 class="card-title">Добавить фильм</h4>
     </div>
     <div class="row pb-2">
+        <!-- Movie poster -->
         <div class="col-auto">
             <img src="{{ movie.posterUrlPreview }}" class="rounded movie-card-poster">
         </div>
+        <!-- Movie description -->
         <div class="col-7">
             <h4 class="card-title">{{ movie.nameRu }}</h4>
             <p class="card-text">{{ movie.year }}</p>
@@ -18,6 +20,7 @@
                 <p class="card-text">{{ movie.shortDescription }}</p>
             {% endif %}
             
+            <!-- Form for personal review and rating -->
             <form action="" method="post">
                 {% csrf_token %}
                 {% for field in form %}

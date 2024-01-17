@@ -7,7 +7,7 @@ from movies.models import Movie
 from movies.forms import CommentForm
 from movies.utils import like_movie, unlike_movie, handle_liking_feed, add_comment
 from .forms import CustomUserCreationForm, ProfileForm
-from .models import Profile
+from .models import Profile, Follow
 
 # Create your views here.
 
@@ -144,6 +144,21 @@ def search_users(request):
             user=request.user).order_by('username')
     else:
         profiles = Profile.objects.all().order_by('username')
+
+    if request.method == 'POST':
+        for profile in profiles:
+            if f'follow-{profile.id}' in request.POST:
+                Follow.objects.create(
+                    follower=request.user.profile,
+                    following=profile
+                )
+                return redirect('search')
+            elif f'unfollow-{profile.id}' in request.POST:
+                follow = Follow.objects.filter(
+                    follower=request.user.profile).filter(following=profile)
+                follow.delete()
+                return redirect('search')
+
     context = {
         'profiles': profiles
     }
