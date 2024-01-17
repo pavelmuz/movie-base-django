@@ -21,3 +21,18 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Follow(models.Model):
+    follower = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name='follower_set')
+    following = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name='following_set')
+    id = models.UUIDField(default=uuid.uuid4, unique=True,
+                          primary_key=True, editable=False)
+
+    class Meta:
+        unique_together = ('follower', 'following')
+
+    def __str__(self):
+        return f'{self.follower.username} follows {self.following.username}'

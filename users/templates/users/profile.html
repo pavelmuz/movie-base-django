@@ -11,12 +11,109 @@
         </div>
         <div class="col-6 me-auto">
             <h3 class="card-title">{{ profile.username }}</h3>
-            <p class="card-subtitle"><p class="card-text">{{ profile.name }}
+            <p class="card-text">{{ profile.name }}
                 {% if profile.birthday %}
                 , {{ profile.birthday }}
                 {% endif %}
             </p>
-            </p>
+            <div class="row">
+                <div class="col-auto text-center">
+                    <p class="card-text my-0 fw-light">
+                        {{ movies.count }}
+                    </p>
+                    <p class="card-txt my-0 fw-light">
+                        фильмы
+                    </p>
+                </div>
+                <div class="col-auto text-center modal-link" data-bs-toggle="modal" data-bs-target="#followers">
+                    <p class="card-text my-0 fw-light">
+                        {{ profile.following_set.all.count }}
+                    </p>
+                    <p class="card-txt my-0 fw-light">
+                        подписчики
+                    </p>
+                </div>
+                <div class="modal fade" id="followers" tabindex="-1"  aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Подписчики:</h1>
+                                <button class="btn modal-close" data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-xmark fa-xl"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+        
+                                {% for follow in profile.following_set.all %}
+                                <div class="row">
+                                    <div class="col-auto my-auto pe-0">
+                                        <a href="{% url 'profile' follow.follower.id %}" class="card-link text-decoration-none">
+                                            <img src="{{ follow.follower.profile_image.url }}" class="avatar-img-md">
+                                        </a>
+                                    </div>
+                                    <div class="col-6 my-auto">
+                                        <a href="{% url 'profile' follow.follower.id %}" class="card-link text-decoration-none">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ follow.follower.username }}</h5>
+                                                <p class="card-subtitle">{{ follow.follower.name }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 my-auto ms-auto me-4">
+                                            <a href="#" class="btn follow-btn">Подписаться</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto text-center modal-link"  data-bs-toggle="modal" data-bs-target="#following">
+                    <p class="card-text my-0 fw-light"> 
+                        {{ profile.follower_set.all.count }}
+                    </p>
+                    <p class="card-txt my-0 fw-light">
+                        подписки
+                    </p>
+                </div>
+                <div class="modal fade" id="following" tabindex="-1"  aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Подписки:</h1>
+                                <button class="btn modal-close" data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-xmark fa-xl"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+        
+                                {% for follow in profile.follower_set.all %}
+                                <div class="row">
+                                    <div class="col-auto my-auto pe-0">
+                                        <a href="{% url 'profile' follow.following.id %}" class="card-link text-decoration-none">
+                                            <img src="{{ follow.following.profile_image.url }}" class="avatar-img-md">
+                                        </a>
+                                    </div>
+                                    <div class="col-6 my-auto">
+                                        <a href="{% url 'profile' follow.following.id %}" class="card-link text-decoration-none">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ follow.following.username }}</h5>
+                                                <p class="card-subtitle">{{ follow.following.name }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 my-auto ms-auto me-4">
+                                            <a href="#" class="btn follow-btn">Подписаться</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
