@@ -1,6 +1,7 @@
 body {
   background-color: #c3edc0;
   padding-top: 5rem;
+  padding-bottom: 3rem;
 }
 
 .navbar {
@@ -17,7 +18,9 @@ body {
 .nav-link,
 .navbar-brand,
 .card-link,
-.modal-close {
+.modal-close,
+.footer-text,
+.footer-link {
   color: #c3edc0;
 }
 

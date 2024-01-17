@@ -5,19 +5,25 @@
 {% block content %}
 
 <div class="container card movie-card mx-auto">
-    <div class="row">
+    <div class="row pb-2">
         <div class="col-auto pt-2">
             <a href="#" class="card-link text-decoration-none" id="back-button"><i class="fa-solid fa-chevron-left fa-xl"></i> Назад</a>
         </div>
     </div>
-    <div class="row py-2">
-        <div class="col-auto">
-            <img src="{{ movie.owner.profile_image.url }}" class="avatar-img-sm">
-        </div>
-        <div class="col ps-0">
-            <p class="card-text">{{ movie.owner.username }}</p>
-        </div>
-    </div>
+
+    {% if request.user != movie.owner.user %}
+        <a href="{% url 'profile' movie.owner.id %}" class="card-link text-decoration-none">
+            <div class="row py-2">
+                <div class="col-auto">
+                    <img src="{{ movie.owner.profile_image.url }}" class="avatar-img-sm">
+                </div>
+                <div class="col ps-0">
+                    <p class="card-text">{{ movie.owner.username }}</p>
+                </div>
+            </div>
+        </a>
+    {% endif %}
+
     <div class="row">
         <div class="col-4">
             <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
