@@ -3,12 +3,14 @@
 {% include "main.html" %}
 
 {% block content %}
-
+<!-- Profile card -->
 <div class="container card profile-card mx-auto">
     <div class="row py-3 px-3">
+        <!-- Profile avatar -->
         <div class="col-auto">
             <img src="{{ profile.profile_image.url }}" class="avatar-img-lg">
         </div>
+        <!-- Profile info -->
         <div class="col-6 me-auto">
             <h3 class="card-title">{{ profile.username }}</h3>
             <p class="card-text">{{ profile.name }}
@@ -17,6 +19,7 @@
                 {% endif %}
             </p>
             <div class="row">
+                <!-- Movies count -->
                 <div class="col-auto text-center">
                     <p class="card-text my-0 fw-light">
                         {{ movies.count }}
@@ -25,6 +28,7 @@
                         фильмы
                     </p>
                 </div>
+                <!-- Followers count + modal button -->
                 <div class="col-auto text-center modal-link" data-bs-toggle="modal" data-bs-target="#followers">
                     <p class="card-text my-0 fw-light">
                         {{ profile.following_set.all.count }}
@@ -33,24 +37,28 @@
                         подписчики
                     </p>
                 </div>
+                <!-- Followers modal -->
                 <div class="modal fade" id="followers" tabindex="-1"  aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
+                                <!-- Modal title -->
                                 <h1 class="modal-title fs-5">Подписчики:</h1>
                                 <button class="btn modal-close" data-bs-dismiss="modal">
                                     <i class="fa-solid fa-xmark fa-xl"></i>
                                 </button>
                             </div>
                             <div class="modal-body">
-        
+                                <!-- Follwers list -->
                                 {% for follow in profile.following_set.all %}
                                 <div class="row">
+                                    <!-- Profile avatar -->
                                     <div class="col-auto my-auto pe-0">
                                         <a href="{% url 'profile' follow.follower.id %}" class="card-link text-decoration-none">
                                             <img src="{{ follow.follower.profile_image.url }}" class="avatar-img-md">
                                         </a>
                                     </div>
+                                    <!-- Profile info -->
                                     <div class="col-6 my-auto">
                                         <a href="{% url 'profile' follow.follower.id %}" class="card-link text-decoration-none">
                                             <div class="card-body">
@@ -59,16 +67,17 @@
                                             </div>
                                         </a>
                                     </div>
+                                    <!-- Follow/unfollow buttons -->
                                     <div class="col-3 my-auto ms-auto me-4">
-                                            <a href="#" class="btn follow-btn">Подписаться</a>
+                                        <a href="#" class="btn follow-btn">Подписаться</a>
                                     </div>
                                 </div>
                                 {% endfor %}
-        
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Follow count + modal button -->
                 <div class="col-auto text-center modal-link"  data-bs-toggle="modal" data-bs-target="#following">
                     <p class="card-text my-0 fw-light"> 
                         {{ profile.follower_set.all.count }}
@@ -77,24 +86,28 @@
                         подписки
                     </p>
                 </div>
+                <!-- Follow modal -->
                 <div class="modal fade" id="following" tabindex="-1"  aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
+                                <!-- Modal title -->
                                 <h1 class="modal-title fs-5">Подписки:</h1>
                                 <button class="btn modal-close" data-bs-dismiss="modal">
                                     <i class="fa-solid fa-xmark fa-xl"></i>
                                 </button>
                             </div>
                             <div class="modal-body">
-        
+                                <!-- Follow list -->
                                 {% for follow in profile.follower_set.all %}
                                 <div class="row">
+                                    <!-- Profile avatar -->
                                     <div class="col-auto my-auto pe-0">
                                         <a href="{% url 'profile' follow.following.id %}" class="card-link text-decoration-none">
                                             <img src="{{ follow.following.profile_image.url }}" class="avatar-img-md">
                                         </a>
                                     </div>
+                                    <!-- Profile info -->
                                     <div class="col-6 my-auto">
                                         <a href="{% url 'profile' follow.following.id %}" class="card-link text-decoration-none">
                                             <div class="card-body">
@@ -103,23 +116,26 @@
                                             </div>
                                         </a>
                                     </div>
+                                    <!-- Follow/unfollow buttons -->
                                     <div class="col-3 my-auto ms-auto me-4">
-                                            <a href="#" class="btn follow-btn">Подписаться</a>
+                                        <a href="#" class="btn follow-btn">Подписаться</a>
                                     </div>
                                 </div>
                                 {% endfor %}
-        
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Profile options dropdown -->
         <div class="col-auto ms-auto">
             <div class="dropdown dropstart">
+                <!-- Open dropdown button -->
                 <button class="btn dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-ellipsis fa-xl"></i>
                 </button>
+                <!-- Dropdown menu -->
                 <ul class="dropdown-menu">
                     <li>
                         <a class="dropdown-item edit-link" href="{% url 'edit_profile' %}">
@@ -138,13 +154,16 @@
 </div>
 
 <div id="movie-feed">
-
+    <!-- Profile movies list -->
     {% for movie in movies %}
-
+    <!-- Movie card -->
     <div class="container card movie-card mx-auto my-2">
         <div class="row pt-2">
+            <!-- Poster, like, comment section -->
             <div class="col-4">
+                <!-- Movie poster -->
                 <img src="{{ movie.poster_url }}" class="rounded movie-card-poster">
+                <!-- Like and unlike buttons -->
                 <div class="row py-0">
                     <form action="" method="post" class="col-auto my-auto px-0">
                         {% csrf_token %}
@@ -159,18 +178,23 @@
                         {% endif %}
                     </form>
                     <div class="col-auto my-auto ps-0">
-                        <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#comment-{{ movie.id }}"><i class="fa-regular fa-message fa-xl card-button" ></i></p>
+                        <!-- Add new comment button -->
+                        <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#comment-{{ movie.id }}">
+                            <i class="fa-regular fa-message fa-xl card-button" ></i>
+                        </p>
+                        <!-- Add new comment modal -->
                         <div class="modal fade" id="comment-{{ movie.id }}" tabindex="-1"  aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
+                                        <!-- Modal title -->
                                         <h1 class="modal-title fs-5">Комментарий:</h1>
                                         <button class="btn modal-close" data-bs-dismiss="modal">
                                             <i class="fa-solid fa-xmark fa-xl"></i>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                
+                                        <!-- Add comment form -->
                                         <div class="row">
                                             <form action="" method="post" class="pb-2">
                                                 {% csrf_token %}
@@ -183,7 +207,6 @@
                                                 </button>
                                             </form>
                                         </div>
-                
                                     </div>
                                 </div>
                             </div>
@@ -191,16 +214,23 @@
                     </div>
                 </div>
             </div>
+            <!-- Movie info -->
             <div class="col-8">
+                <!-- Movie title + options -->
                 <div class="row">
+                    <!-- Movie title -->
                     <div class="col-8 me-auto pt-2">
                         <h5 class="card-title">{{ movie.title }}</h5>
                     </div>
+                    <!-- Movie options -->
                     <div class="col-auto">
+                        <!-- Movie options dropdown -->
                         <div class="dropdown dropstart">
+                            <!-- Open dropdown -->
                             <button class="btn dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-ellipsis fa-xl"></i>
                             </button>
+                            <!-- Dropdown -->
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item edit-link" href="{% url 'edit-movie' movie.id %}">
@@ -216,34 +246,41 @@
                         </div>
                     </div>
                 </div>
+                <!-- Movie rating and review -->
                 <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
                     <p class="card-text"><strong>Рейтинг: </strong>{{ movie.user_rating }}</p>
                     <p class="card-text"><strong>Обзор: </strong>{{ movie.user_review }}</p>
                 </a>
             </div>
         </div>
+        <!-- Likes section -->
         <div class="row">
+            <!-- Total likes + open likes modal -->
             <p class="card-text modal-link mb-0" data-bs-toggle="modal" data-bs-target="#modal-{{ movie.id }}">
                 <strong>Нравится: </strong>{{ movie.like_set.all.count }}
             </p>
+            <!-- Likes modal -->
             <div class="modal fade" id="modal-{{ movie.id }}" tabindex="-1"  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <!-- Modal title -->
                             <h1 class="modal-title fs-5">Нравится:</h1>
                             <button class="btn modal-close" data-bs-dismiss="modal">
                                 <i class="fa-solid fa-xmark fa-xl"></i>
                             </button>
                         </div>
                         <div class="modal-body">
-    
+                            <!-- Likers list -->
                             {% for like in movie.like_set.all %}
                             <div class="row">
+                                <!-- Profile avatar -->
                                 <div class="col-auto my-auto pe-0">
                                     <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
                                         <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
                                     </a>
                                 </div>
+                                <!-- Profile info -->
                                 <div class="col-6 my-auto">
                                     <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
                                         <div class="card-body">
@@ -252,31 +289,32 @@
                                         </div>
                                     </a>
                                 </div>
+                                <!-- Follow/unfollow buttons -->
                                 <div class="col-3 my-auto ms-auto me-4">
                                     <a href="#" class="btn follow-btn">Подписаться</a>
                                 </div>
                             </div>
                             {% endfor %}
-    
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Last comments -->
         <div class="row pb-2">
+            <!-- Last comments list -->
             {% for comment in movie.get_card_comments %}
                 <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
             {% endfor %}
         </div>
+        <!-- Show all comments button -->
         <div class="row mb-2">
             <a href="{% url 'movie' movie.id %}" class="card-link text-decoration-none">
                 <p class="card-subtitle">Показать все комментарии ({{ movie.comment_set.all.count }})</p>
             </a>
         </div>
     </div>
-    
     {% endfor %}
-
 </div>
 
 {% endblock content %}

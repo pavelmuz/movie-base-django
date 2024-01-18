@@ -3,10 +3,12 @@
 {% block content %}
 
 {% if page == 'login' %}
-
+<!-- Login card -->
 <div class="container auth-card card mx-auto">
     <div class="row p-2">
+        <!-- Card title -->
         <h4 class="card-title">Войти в аккаунт</h4>
+        <!-- Login form -->
         <form action="" method="post">
             {% csrf_token %}
             <div class="mb-3">
@@ -21,6 +23,7 @@
                 Войти
             </button>
         </form>
+        <!-- Forgot passowrd and register links -->
         <a href="{% url 'reset_password' %}" class="card-link mt-2">Забыли пароль?</a>
         <p class="card-text my-3">
             Еще нет аккаунта? <a href="{% url 'register' %}" class="card-link">Зарегистрируйтесь</a>
@@ -29,10 +32,12 @@
 </div>
 
 {% else %}
-
+<!-- Register card -->
 <div class="container card auth-card mx-auto">
     <div class="row p-2">
+        <!-- Card title -->
         <h4 class="card-title">Создать аккаунт</h4>
+        <!-- Register form -->
         <form action="" method="post">
             {% csrf_token %}
             {% for field in form %}
@@ -43,6 +48,7 @@
                 Создать аккаунт
             </button>
         </form>
+        <!-- Login link -->
         <p class="card-text py-3">
             Уже есть аккаунт? <a href="{% url 'login' %}" class="card-link">Войдите</a>
         </p>

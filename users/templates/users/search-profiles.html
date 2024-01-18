@@ -2,7 +2,9 @@
 
 {% block content %}
 
+<!-- Title card -->
 <div class="container search-user mx-auto mb-3">
+    <!-- Search user form -->
     <form action="" method="get">
         <div class="row">
             <div class="col-9">
@@ -18,14 +20,16 @@
 </div>
 
 {% for profile in profiles %}
-
+<!-- Found users list -->
 <div class="container card search-user-card mx-auto my-1">
     <div class="row">
+        <!-- User Avatar -->
         <div class="col-1 my-auto">
             <a href="{% url 'profile' profile.id %}" class="card-link text-decoration-none">
                 <img src="{{ profile.profile_image.url }}" class="avatar-img-md">
             </a>
         </div>
+        <!-- User info -->
         <div class="col-8 my-auto">
             <a href="{% url 'profile' profile.id %}" class="card-link text-decoration-none">
                 <div class="card-body">
@@ -34,9 +38,11 @@
                 </div>
             </a>
         </div>
+        <!-- Follow-unfollow buttons -->
         <div class="col-3 my-auto">
             {% if request.user.is_authenticated %}
                 {% if request.user.profile.id in profile.is_followed %}
+                <!-- Unfollow action -->
                 <form action="" method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn following-btn" name="unfollow-{{ profile.id }}">
@@ -44,6 +50,7 @@
                     </button>
                 </form>
                 {% else %}
+                <!-- Follow action -->
                 <form action="" method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn follow-btn" name="follow-{{ profile.id }}">
