@@ -9,8 +9,6 @@ from movies.utils import like_movie, unlike_movie, handle_liking_feed, add_comme
 from .forms import CustomUserCreationForm, ProfileForm
 from .models import Profile, Follow
 
-# Create your views here.
-
 
 def login_user(request):
     if request.user.is_authenticated:
@@ -83,7 +81,7 @@ def user_profile(request, pk):
 
     if request.method == 'POST':
         for movie in movies:
-            if movie.title in request.POST:
+            if f'movie-{movie.id}' in request.POST:
                 if request.user.profile.id in movie.users_liked:
                     unlike_movie(request, movie)
                     return redirect('profile', profile.id)
@@ -101,6 +99,17 @@ def user_profile(request, pk):
                     comment.movie = movie
                     comment.save()
                     return redirect('profile', profile.id)
+        if f'follow-{profile.id}' in request.POST:
+            Follow.objects.create(
+                follower=request.user.profile,
+                following=profile
+            )
+            return redirect('profile', profile.id)
+        elif f'unfollow-{profile.id}' in request.POST:
+            follow = Follow.objects.filter(
+                follower=request.user.profile).filter(following=profile)
+            follow.delete()
+            return redirect('profile', profile.id)
 
     context = {
         'profile': profile,

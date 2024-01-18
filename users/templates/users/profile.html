@@ -19,8 +19,9 @@
                 , {{ profile.birthday }}
                 {% endif %}
             </p>
-            <!-- Movie count -->
-            <div class="row">
+            
+            <div class="row pb-3">
+                <!-- Movie count -->
                 <div class="col-auto text-center">
                     <p class="card-text my-0 fw-light">
                         {{ movies.count }}
@@ -68,10 +69,6 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <!-- Follow/unfollow buttons -->
-                                    <div class="col-3 my-auto ms-auto me-4">
-                                        <a href="#" class="btn follow-btn">Подписаться</a>
-                                    </div>
                                 </div>
                                 {% endfor %}
                             </div>
@@ -117,15 +114,35 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <!-- Follow/unfollow buttons -->
-                                    <div class="col-3 my-auto ms-auto me-4">
-                                        <a href="#" class="btn follow-btn">Подписаться</a>
-                                    </div>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- Follow button section -->
+            <div class="row">
+                <div class="col-3 my-auto">
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.profile.id in profile.is_followed %}
+                        <!-- Unfollow action -->
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn following-btn" name="unfollow-{{ profile.id }}">
+                                Подписан
+                            </button>
+                        </form>
+                        {% else %}
+                        <!-- Follow action -->
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn follow-btn" name="follow-{{ profile.id }}">
+                                Подписаться
+                            </button>
+                        </form>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -149,11 +166,11 @@
                         <form action="" method="post" class="col-auto my-auto px-0">
                             {% csrf_token %}
                             {% if request.user.profile.id in movie.users_liked %}
-                                <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                                <button type="submit" class="btn card-button" name="movie-{{ movie.id }}">
                                     <i class="fa-solid fa-heart fa-xl card-button"></i>
                                 </button>
                             {% else %}
-                                <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                                <button type="submit" class="btn card-button" name="movie-{{ movie.id }}">
                                     <i class="fa-regular fa-heart fa-xl card-button"></i>
                                 </button>
                             {% endif %}
@@ -241,12 +258,6 @@
                                             <p class="card-subtitle">{{ like.owner.name }}</p>
                                         </div>
                                     </a>
-                                </div>
-                                <!-- Follow/unfollow buttons -->
-                                <div class="col-3 my-auto ms-auto me-4">
-                                    {% if request.user.profile.id in movie.users_liked %}
-                                        <a href="#" class="btn follow-btn">Подписаться</a>
-                                    {% endif %}
                                 </div>
                             </div>
                             {% endfor %}

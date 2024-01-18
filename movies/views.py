@@ -4,8 +4,6 @@ from .models import Movie
 from .utils import get_movies, get_movie, like_movie, unlike_movie, handle_liking_feed, add_comment
 from .forms import MovieForm, CommentForm
 
-# Create your views here.
-
 
 def feed(request):
     movies = Movie.objects.all().order_by('-created')

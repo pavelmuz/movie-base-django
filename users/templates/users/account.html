@@ -49,7 +49,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <!-- Follwers list -->
+                                <!-- Followers list -->
                                 {% for follow in profile.following_set.all %}
                                 <div class="row">
                                     <!-- Profile avatar -->
@@ -66,10 +66,6 @@
                                                 <p class="card-subtitle">{{ follow.follower.name }}</p>
                                             </div>
                                         </a>
-                                    </div>
-                                    <!-- Follow/unfollow buttons -->
-                                    <div class="col-3 my-auto ms-auto me-4">
-                                        <a href="#" class="btn follow-btn">Подписаться</a>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -115,10 +111,6 @@
                                                 <p class="card-subtitle">{{ follow.following.name }}</p>
                                             </div>
                                         </a>
-                                    </div>
-                                    <!-- Follow/unfollow buttons -->
-                                    <div class="col-3 my-auto ms-auto me-4">
-                                        <a href="#" class="btn follow-btn">Подписаться</a>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -168,11 +160,11 @@
                     <form action="" method="post" class="col-auto my-auto px-0">
                         {% csrf_token %}
                         {% if request.user.profile.id in movie.users_liked %}
-                            <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                            <button type="submit" class="btn card-button" name="movie-{{ movie.id }}">
                                 <i class="fa-solid fa-heart fa-xl card-button"></i>
                             </button>
                         {% else %}
-                            <button type="submit" class="btn card-button" name="{{ movie.title }}">
+                            <button type="submit" class="btn card-button" name="movie-{{ movie.id }}">
                                 <i class="fa-regular fa-heart fa-xl card-button"></i>
                             </button>
                         {% endif %}
@@ -288,10 +280,6 @@
                                             <p class="card-subtitle">{{ like.owner.name }}</p>
                                         </div>
                                     </a>
-                                </div>
-                                <!-- Follow/unfollow buttons -->
-                                <div class="col-3 my-auto ms-auto me-4">
-                                    <a href="#" class="btn follow-btn">Подписаться</a>
                                 </div>
                             </div>
                             {% endfor %}
