@@ -172,9 +172,3 @@ def search_users(request):
         'profiles': profiles
     }
     return render(request, 'users/search-profiles.html', context)
-
-
-@login_required(login_url='login')
-def notifications(request):
-    context = {}
-    return render(request, 'users/notifications.html', context)

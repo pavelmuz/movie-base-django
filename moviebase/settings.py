@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'movies.apps.MoviesConfig',
     'users.apps.UsersConfig',
+    'notifications.apps.NotificationsConfig',
     'pwa',
     'rest_framework'
 ]
