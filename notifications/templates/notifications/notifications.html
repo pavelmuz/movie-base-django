@@ -1,12 +1,95 @@
+{% load static %}
+
 {% include "main.html" %}
 
 {% block content %}
 
 <!-- Notifications card -->
-<div class="container card movie-card">
+<div class="container card movie-card mb-2">
     <div class="row p-2">
         <h4 class="card-title">Уведомления</h4>
     </div>
+</div>
+
+<div id="cards-list">
+    {% for notification in notifications %}
+    <!-- Notification card -->
+    <div class="container card movie-card mb-1">
+        <div class="row py-1">
+            <!-- Follow notification -->
+            {% if notification.notification_type == 'follow' %}
+                <div class="col-auto my-auto pe-0">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                    </a>
+                </div>
+                <div class="col-8 my-auto me-auto ps-1">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <p class="card-text">{{ notification.sender.username }} подписался на вас</p>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <form action="{% url 'delete_notification' notification.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn notification-btn ps-auto ms-auto" type="submit">
+                            <i class="fa-solid fa-xmark fa-xl"></i>
+                        </button>
+                    </form>
+                </div>  
+            <!-- Like notification -->
+            {% elif notification.notification_type == 'like' %}
+                <div class="col-auto my-auto pe-0">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                    </a>
+                </div>
+                <div class="col-auto my-auto px-1">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <p class="card-text">{{ notification.sender.username }} нравится </p>
+                    </a>
+                </div>
+                <div class="col-7 my-auto me-auto ps-1">
+                    <a href="{% url 'movie' notification.movie.id %}" class="card-link text-decoration-none">
+                        <p class="card-text">{{ notification.movie.title }}</p>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <form action="{% url 'delete_notification' notification.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn notification-btn ps-auto ms-auto" type="submit">
+                            <i class="fa-solid fa-xmark fa-xl"></i>
+                        </button>
+                    </form>
+                </div>
+            <!-- Comment notification -->
+            {% elif notification.notification_type == 'comment' %}
+                <div class="col-auto my-auto pe-0">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                    </a>
+                </div>
+                <div class="col-auto my-auto px-1">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <p class="card-text">{{ notification.sender.username }} прокомментировал </p>
+                    </a>
+                </div>
+                <div class="col-6 my-auto me-auto ps-1">
+                    <a href="{% url 'movie' notification.movie.id %}" class="card-link text-decoration-none">
+                        <p class="card-text">{{ notification.movie.title }}</p>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <form action="{% url 'delete_notification' notification.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn notification-btn ps-auto ms-auto" type="submit">
+                            <i class="fa-solid fa-xmark fa-xl"></i>
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock content %}

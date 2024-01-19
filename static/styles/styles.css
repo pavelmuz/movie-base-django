@@ -20,13 +20,15 @@ body {
 .card-link,
 .modal-close,
 .footer-text,
-.footer-link {
+.footer-link,
+.notification-btn {
   color: #c3edc0;
 }
 
 .nav-link:hover,
 .navbar-brand:hover,
-.modal-close:hover {
+.modal-close:hover,
+.notification-btn:hover {
   color: #9cbd99;
 }
 

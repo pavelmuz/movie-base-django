@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  movieFeed = document.getElementById("movie-feed");
-  if (movieFeed) {
+  feed = document.getElementById("cards-list");
+  if (feed) {
     localStorage.setItem("originUrl", window.location.href);
   }
 });
