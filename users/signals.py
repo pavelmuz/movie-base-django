@@ -3,7 +3,8 @@ from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User
-from .models import Profile
+from notifications.models import Notification
+from .models import Profile, Follow
 
 
 @receiver(post_save, sender=User)
@@ -49,3 +50,13 @@ def update_user(sender, instance, created, **kwargs):
         user.username = profile.username
         user.email = profile.email
         user.save()
+
+
+@receiver(post_save, sender=Follow)
+def create_follow_notification(sender, instance, created, **kwargs):
+    if created:
+        Notification.objects.create(
+            recipient=instance.following,
+            sender=instance.follower,
+            notification_type='follow'
+        )
