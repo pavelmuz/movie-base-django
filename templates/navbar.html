@@ -32,7 +32,15 @@
                     <a class="nav-link{% if request.path == '/search-movies/' %} link-active{% endif %}" href="{% url 'search-movies' %}">Добавить фильм</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{% if request.path == '/notifications/' %} link-active{% endif %}" href="{% url 'notifications' %}">Уведомления</a>
+                    <a class="nav-link{% if request.path == '/notifications/' %} link-active{% endif %} position-relative" href="{% url 'notifications' %}">
+                        Уведомления
+                        {% if request.user.profile.notifications.count > 0 %}
+                        <span class="position-absolute top-1 start-90 translate-middle p-1 bg-danger border border-light rounded-circle">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                        {% endif %}
+                        
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a 
