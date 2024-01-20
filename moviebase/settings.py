@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'movies.apps.MoviesConfig',
     'users.apps.UsersConfig',
     'notifications.apps.NotificationsConfig',
+    'chats.apps.ChatsConfig',
     'pwa',
     'rest_framework'
 ]

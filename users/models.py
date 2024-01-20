@@ -13,6 +13,7 @@ class Profile(models.Model):
     birthday = models.DateField(null=True, blank=True)
     profile_image = models.ImageField(
         null=True, blank=True, upload_to='profiles/', default='profiles/user-default.png')
+    messages = models.ManyToManyField('chats.Message', blank=True)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
@@ -24,6 +25,9 @@ class Profile(models.Model):
     def is_followed(self):
         following = self.following_set.all().values_list('follower__id', flat=True)
         return following
+
+    def get_messages_with_user(self, user):
+        return self.messages.filter(sender=user) | self.messages.filter(recipient=user)
 
 
 class Follow(models.Model):

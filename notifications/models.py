@@ -2,13 +2,15 @@ import uuid
 from django.db import models
 from movies.models import Movie
 from users.models import Profile
+from chats.models import Message
 
 
 class Notification(models.Model):
     NOTIFICATION_TYPES = (
         ('follow', 'Follow'),
         ('like', 'Like'),
-        ('comment', 'Comment')
+        ('comment', 'Comment'),
+        ('message', 'Message')
     )
 
     recipient = models.ForeignKey(
@@ -18,6 +20,8 @@ class Notification(models.Model):
         max_length=20, choices=NOTIFICATION_TYPES)
     movie = models.ForeignKey(
         Movie, on_delete=models.CASCADE, blank=True, null=True)
+    message = models.ForeignKey(
+        Message, on_delete=models.CASCADE, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)

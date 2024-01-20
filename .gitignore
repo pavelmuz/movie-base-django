@@ -5,6 +5,8 @@ users/__pycache__
 users/migrations/__pycache__
 notifications/__pycache__
 notifications/migrations/__pycache__
+chats/__pycache__
+chats/migrations/__pycache__
 static/.DS_Store
 api/__pycache__
 .DS_Store

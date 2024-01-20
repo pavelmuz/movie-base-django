@@ -43,6 +43,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link{% if request.path == '/chats/' %} link-active{% endif %}" href="{% url 'chats' %}">Сообщения</a>
+                </li>
+                <li class="nav-item">
                     <a 
                         class="nav-link {% if request.path == '/users/account/' %}link-active{% endif %}" 
                         href="{% url 'account' %}"
