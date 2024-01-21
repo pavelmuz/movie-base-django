@@ -2,10 +2,29 @@
 
 {% block content %}
 
-<div class="container card movie-card">
-    <div class="row">
-        <h4 class="card-title">Ваши чаты</h4>
+<!-- Chats card -->
+<div class="container card chats-card mb-2">
+    <div class="row p-2 py-3 my-auto">
+        <h4 class="card-title my-auto">Чаты</h4>
     </div>
 </div>
+
+{% for chat in active_chats %}
+    <div class="container card chats-card my-1">
+        <div class="row py-2">
+            <div class="col-auto my-auto">
+                <img src="{{ chat.profile_image.url }}" class="avatar-img-md">
+            </div>
+            <div class="col-auto my-auto">
+                <h5 class="card-text">{{ chat.username }}</h5>
+            </div>
+            <div class="col-auto my-auto ms-auto me-3">
+                <a class="card-link" href="{% url 'chat-details' chat.id %}" role="button">
+                    <i class="fa-solid fa-chevron-right fa-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 
 {% endblock content %}

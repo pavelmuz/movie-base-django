@@ -123,7 +123,7 @@
             </div>
             <!-- Follow button section -->
             <div class="row">
-                <div class="col-3 my-auto">
+                <div class="col-auto my-auto">
                     {% if request.user.is_authenticated %}
                         {% if request.user.profile.id in profile.is_followed %}
                         <!-- Unfollow action -->
@@ -143,6 +143,11 @@
                         </form>
                         {% endif %}
                     {% endif %}
+                </div>
+                <div class="col-auto">
+                    <a class="btn edit-btn" href="{% url 'chat-details' profile.id %}" role="button">
+                        <i class="fa-solid fa-pen-to-square"></i> Сообщение
+                    </a>
                 </div>
             </div>
         </div>

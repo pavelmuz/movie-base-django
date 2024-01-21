@@ -133,7 +133,8 @@ body {
   object-fit: cover;
 }
 
-.search-user-card {
+.search-user-card,
+.chats-card {
   background-color: #0b666a;
   color: #c3edc0;
   max-width: 600px;

@@ -11,6 +11,7 @@
     </div>
 </div>
 
+{% if notifications %}
 <div id="cards-list">
     {% for notification in notifications %}
     <!-- Notification card -->
@@ -86,10 +87,36 @@
                         </button>
                     </form>
                 </div>
+            <!-- Message notification -->
+            {% elif notification.notification_type == 'message' %}
+                <div class="col-auto my-auto pe-0">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                    </a>
+                </div>
+                <div class="col-auto my-auto px-1">
+                    <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
+                        <p class="card-text">{{ notification.sender.username }} написал вас: </p>
+                    </a>
+                </div>
+                <div class="col-6 my-auto me-auto ps-1">
+                    <a href="#" class="card-link text-decoration-none">
+                        <p class="card-text">{{ notification.message.body }}</p>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <form action="{% url 'delete_notification' notification.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn notification-btn ps-auto ms-auto" type="submit">
+                            <i class="fa-solid fa-xmark fa-xl"></i>
+                        </button>
+                    </form>
+                </div>
             {% endif %}
         </div>
     </div>
     {% endfor %}
 </div>
+{% endif %}
 
 {% endblock content %}

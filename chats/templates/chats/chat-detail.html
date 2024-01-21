@@ -1,0 +1,17 @@
+{% include "main.html" %}
+
+{% block content %}
+
+{% for message in feed %}
+
+{{ message }}
+
+{% endfor %}
+<form action="" method="post">
+    {% csrf_token %}
+    <label for="chat-message">Message</label>
+    <input type="text" name="chat-message" id="chat-message">
+    <button type="submit">Отправить</button>
+</form> 
+
+{% endblock content %}
