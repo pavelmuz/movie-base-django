@@ -193,3 +193,32 @@ body {
 .modal-header {
   border-bottom: 2px solid #c3edc0;
 }
+
+.chat-feed {
+  background-color: #edf9ec;
+}
+
+.message-bubble {
+  max-width: 220px;
+}
+
+.message-sender {
+  background-color: #cff0cc;
+}
+
+.message-recipient {
+  background-color: #afd5ac;
+}
+
+.message-input {
+  background-color: #edf9ec;
+}
+
+.message-input:focus {
+  background-color: #edf9ec;
+  color: #0b666a;
+}
+
+::placeholder {
+  color: #0b666a;
+}

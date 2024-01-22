@@ -100,7 +100,7 @@
                     </a>
                 </div>
                 <div class="col-6 my-auto me-auto ps-1">
-                    <a href="#" class="card-link text-decoration-none">
+                    <a href="{% url 'chat-details' notification.message.sender.id %}" class="card-link text-decoration-none">
                         <p class="card-text">{{ notification.message.body }}</p>
                     </a>
                 </div>

@@ -2,16 +2,54 @@
 
 {% block content %}
 
-{% for message in feed %}
-
-{{ message }}
-
-{% endfor %}
-<form action="" method="post">
-    {% csrf_token %}
-    <label for="chat-message">Message</label>
-    <input type="text" name="chat-message" id="chat-message">
-    <button type="submit">Отправить</button>
-</form> 
+<!-- Chat container -->
+<div class="container card chats-card">
+    <!-- Back button -->
+    <div class="row pb-2">
+        <div class="col-auto pt-2">
+            <a href="#" class="card-link text-decoration-none" id="back-button">
+                <i class="fa-solid fa-chevron-left fa-xl"></i> Назад
+            </a>
+        </div>
+    </div>
+    <!-- Chat recipinet info -->
+    <div class="row pb-2">
+        <h5 class="card-title">
+            Чат с пользователем:
+            <a href="{% url "profile" recipient.id %}" class="card-link text-decoration-none">
+                <img src="{{ recipient.profile_image.url }}" class="avatar-img-sm mx-2">            
+                {{ recipient.username }}
+            </a>
+        </h5>
+    </div>
+    <!-- Chat feed -->
+    <div class="container card chat-feed">
+        {% for message in feed %}
+            <!-- Recipinets messages -->
+            {% if message.sender == recipient %}
+                <div class="card py-2 my-2 message-bubble message-recipient">
+                    <p class="card-text px-2">{{ message.body }}</p> 
+                </div>
+            <!-- User messages -->
+            {% else %}
+                <div class="card py-2 my-2 message-bubble message-sender ms-auto">
+                    <p class="card-text px-2">{{ message.body }}</p> 
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <!-- Send message form -->
+    <div class="row">
+        <form action="" method="post" class="w-100">
+            {% csrf_token %}
+            <textarea class="form-control message-input my-1" rows="2" placeholder="Введите сообщение" name="chat-message"></textarea>
+            <div class="col-auto">
+                <button type="submit" class="btn edit-btn mb-2">
+                    Отправить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock content %}

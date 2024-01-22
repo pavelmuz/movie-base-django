@@ -37,6 +37,7 @@ def chat(request, pk):
         return redirect('chat-details', pk)
 
     context = {
-        'feed': messages
+        'feed': messages,
+        'recipient': recipient
     }
     return render(request, 'chats/chat-detail.html', context)

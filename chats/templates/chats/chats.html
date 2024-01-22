@@ -3,21 +3,24 @@
 {% block content %}
 
 <!-- Chats card -->
-<div class="container card chats-card mb-2">
+<div class="container card chats-card mb-2" id="cards-list">
     <div class="row p-2 py-3 my-auto">
         <h4 class="card-title my-auto">Чаты</h4>
     </div>
 </div>
-
+<!-- Active chats -->
 {% for chat in active_chats %}
     <div class="container card chats-card my-1">
         <div class="row py-2">
+            <!-- Prodile avatar -->
             <div class="col-auto my-auto">
                 <img src="{{ chat.profile_image.url }}" class="avatar-img-md">
             </div>
+            <!-- Profile username -->
             <div class="col-auto my-auto">
                 <h5 class="card-text">{{ chat.username }}</h5>
             </div>
+            <!-- Link to chat -->
             <div class="col-auto my-auto ms-auto me-3">
                 <a class="card-link" href="{% url 'chat-details' chat.id %}" role="button">
                     <i class="fa-solid fa-chevron-right fa-2xl"></i>
