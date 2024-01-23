@@ -22,6 +22,8 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(
         template_name='reset-password-complete.html'), name='password_reset_complete'),
 
+    path('accounts/', include('allauth.urls')),
+
     path('', include('pwa.urls')),
 ]
 

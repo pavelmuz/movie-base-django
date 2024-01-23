@@ -1,3 +1,4 @@
+{% load socialaccount %}
 {% include "main.html" %}
 
 {% block content %}
@@ -23,6 +24,30 @@
                 Войти
             </button>
         </form>
+        <p class="card-text pt-2 mb-1">или войдите с помощью:</p>
+        <!-- Social Logins -->
+        <div class="row me-auto">
+            <div class="col-auto">
+                <a class="btn social-btn me-2 my-2" href="{% provider_login_url 'google' %}" role="button">
+                    <i class="fa-brands fa-google"></i> Google
+                </a>
+            </div>
+            <div class="col-auto">
+                <a class="btn social-btn me-2 my-2" href="{% provider_login_url 'yandex' %}" role="button">
+                    <i class="fa-brands fa-yandex"></i> Яндекс
+                </a>
+            </div>
+            <div class="col-auto">
+                <a class="btn social-btn me-2 my-2" href="{% provider_login_url 'github' %}" role="button">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+            </div>
+            <div class="col-auto">
+                <a class="btn social-btn me-2 my-2" href="#" role="button">
+                    <i class="fa-solid fa-at"></i> Mail.Ru
+                </a>
+            </div>
+        </div>
         <!-- Forgot passowrd and register links -->
         <a href="{% url 'reset_password' %}" class="card-link mt-2">Забыли пароль?</a>
         <p class="card-text my-3">
