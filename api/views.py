@@ -1,9 +1,10 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from users.models import Profile
+from users.models import Profile, Follow
 from movies.models import Movie
 from .serializers import (ProfileSerializer, MovieSerializer,
-                          LikeSerializer, CommentSerializer)
+                          LikeSerializer, CommentSerializer,
+                          FollowSerializer, NotificationSerializer)
 
 
 @api_view(['GET'])
@@ -15,6 +16,10 @@ def get_routes(request):
         {'GET': 'api/profile-feed/:id'},
         {'GET': 'api/likes/:id'},
         {'GET': 'api/comments/:id'},
+        {'GET': 'api/card-comments/:id'},
+        {'GET': 'followers/:id'},
+        {'GET': 'followings/:id'},
+        {'GET': 'notifications/:id'}
     ]
     return Response(routes)
 
@@ -69,4 +74,26 @@ def get_movie_card_comments(request, pk):
     movie = Movie.objects.get(id=pk)
     comments = movie.comment_set.all().order_by('-created')[:2]
     serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_followers(request, pk):
+    followers = Follow.objects.filter(following__id=pk)
+    serializer = FollowSerializer(followers, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_followings(request, pk):
+    followings = Follow.objects.filter(follower__id=pk)
+    serializer = FollowSerializer(followings, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_notifications(request, pk):
+    profile = Profile.objects.get(id=pk)
+    notifications = profile.notifications.all().order_by('-created')
+    serializer = NotificationSerializer(notifications, many=True)
     return Response(serializer.data)
