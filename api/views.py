@@ -1,10 +1,14 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.db.models import Q
 from users.models import Profile, Follow
 from movies.models import Movie
+from chats.models import Message
+from .utils import get_movie, get_movies
 from .serializers import (ProfileSerializer, MovieSerializer,
                           LikeSerializer, CommentSerializer,
-                          FollowSerializer, NotificationSerializer)
+                          FollowSerializer, NotificationSerializer,
+                          MessageSerializer)
 
 
 @api_view(['GET'])
@@ -19,7 +23,9 @@ def get_routes(request):
         {'GET': 'api/card-comments/:id'},
         {'GET': 'followers/:id'},
         {'GET': 'followings/:id'},
-        {'GET': 'notifications/:id'}
+        {'GET': 'notifications/:id'},
+        {'GET': 'active-chats/:id'},
+        {'GET': 'chat/:user_id/:recipient_id'}
     ]
     return Response(routes)
 
@@ -97,3 +103,38 @@ def get_notifications(request, pk):
     notifications = profile.notifications.all().order_by('-created')
     serializer = NotificationSerializer(notifications, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_active_chats(request, pk):
+    profile = Profile.objects.get(id=pk)
+    active_chats = Profile.objects.filter(
+        Q(sent_messages__recipient=profile) |
+        Q(recieved_messages__sender=profile)
+    ).distinct()
+    serializer = ProfileSerializer(active_chats, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_chat(request, user_id, recipient_id):
+    current_user = Profile.objects.get(id=user_id)
+    recipient = Profile.objects.get(id=recipient_id)
+    messages = Message.objects.filter(
+        (Q(sender=current_user) & Q(recipient=recipient)) |
+        (Q(sender=recipient) & Q(recipient=current_user))
+    ).order_by('timestamp')
+    serializer = MessageSerializer(messages, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def fetch_movies(request, title):
+    movies = get_movies(title)
+    return Response(movies)
+
+
+@api_view(['GET'])
+def fetch_movie(request, kinopoisk_id):
+    movie = get_movie(kinopoisk_id)
+    return Response(movie)
