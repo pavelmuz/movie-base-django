@@ -5,22 +5,73 @@ from chats.models import Message
 from notifications.models import Notification
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ProfileShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = [
+            'id',
+            'name',
+            'username',
+            'profile_image',
+        ]
+
+
+class FollowerSerializer(serializers.ModelSerializer):
+    follower = ProfileShortSerializer()
+
+    class Meta:
+        model = Follow
+        fields = [
+            'follower'
+        ]
+
+
+class FollowingSerializer(serializers.ModelSerializer):
+    following = ProfileShortSerializer()
+
+    class Meta:
+        model = Follow
+        fields = [
+            'following'
+        ]
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    followers = serializers.SerializerMethodField()
+    followings = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = [
+            'id',
+            'name',
+            'username',
+            'email',
+            'birthday',
+            'profile_image',
+            'followers',
+            'followings'
+        ]
+
+    def get_followers(self, obj):
+        followers = Follow.objects.filter(following=obj)
+        return FollowerSerializer(instance=followers, many=True).data
+
+    def get_followings(self, obj):
+        followings = Follow.objects.filter(follower=obj)
+        return FollowingSerializer(instance=followings, many=True).data
 
 
 class LikeSerializer(serializers.ModelSerializer):
-    owner = ProfileSerializer(many=False)
+    owner = ProfileShortSerializer(many=False)
 
     class Meta:
         model = Like
-        fields = '__all__'
+        fields = ['id', 'owner']
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    owner = ProfileSerializer(many=False)
+    owner = ProfileShortSerializer(many=False)
 
     class Meta:
         model = Comment
@@ -28,25 +79,39 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    owner = ProfileSerializer(many=False)
+    owner = ProfileShortSerializer(many=False)
+    comments = CommentSerializer(many=True)
+    likes = LikeSerializer(many=True)
 
     class Meta:
         model = Movie
-        fields = '__all__'
+        fields = [
+            'id',
+            'owner',
+            'title',
+            'user_rating',
+            'user_review',
+            'description',
+            'poster_url',
+            'created',
+            'kinopoisk_url',
+            'likes',
+            'comments'
+        ]
 
 
-class FollowSerializer(serializers.ModelSerializer):
-    follower = ProfileSerializer()
-    following = ProfileSerializer()
-
+class MovieShortSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Follow
-        fields = '__all__'
+        model = Movie
+        fields = [
+            'id',
+            'title'
+        ]
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    sender = ProfileSerializer()
-    recipient = ProfileSerializer()
+    sender = ProfileShortSerializer()
+    recipient = ProfileShortSerializer()
 
     class Meta:
         model = Message
@@ -54,11 +119,20 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class NotificationSerializer(serializers.ModelSerializer):
-    recipient = ProfileSerializer()
-    sender = ProfileSerializer()
-    movie = MovieSerializer()
+    recipient = ProfileShortSerializer()
+    sender = ProfileShortSerializer()
+    movie = MovieShortSerializer()
     message = MessageSerializer()
 
     class Meta:
         model = Notification
+        fields = '__all__'
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    follower = ProfileShortSerializer()
+    following = ProfileShortSerializer()
+
+    class Meta:
+        model = Follow
         fields = '__all__'

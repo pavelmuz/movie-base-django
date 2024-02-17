@@ -4,6 +4,7 @@ django-cors-headers==4.3.1
 django-pwa==1.1.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
+drf_spectacular==0.27.1
 gunicorn==21.2.0
 Pillow==10.1.0
 psycopg2-binary==2.9.9

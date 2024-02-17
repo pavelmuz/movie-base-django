@@ -1,0 +1,510 @@
+openapi: 3.0.3
+info:
+  title: MovieBase API
+  version: 1.0.0
+  description: MoviBase social network
+paths:
+  /api/active-chats/{id}/:
+    get:
+      operationId: active_chats_list
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - active-chats
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProfileShort"
+          description: ""
+  /api/chat/{user_id}/{recipient_id}/:
+    get:
+      operationId: chat_list
+      parameters:
+        - in: path
+          name: recipient_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+      tags:
+        - chat
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+          description: ""
+  /api/feed/:
+    get:
+      operationId: feed_list
+      description: Получить главную ленту фильмов
+      tags:
+        - feed
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+          description: ""
+  /api/kinopoisk-movie/{kinopoisk_id}/:
+    get:
+      operationId: kinopoisk_movie_retrieve
+      description: Получить данные о фильме по ID
+      parameters:
+        - in: path
+          name: kinopoisk_id
+          schema:
+            type: string
+          required: true
+      tags:
+        - kinopoisk-movie
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                description: Movie details
+          description: ""
+  /api/kinopoisk-movies/{title}/:
+    get:
+      operationId: kinopoisk_movies_retrieve
+      description: Получить список фильмов по ключевому слову
+      parameters:
+        - in: path
+          name: title
+          schema:
+            type: string
+          required: true
+      tags:
+        - kinopoisk-movies
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                description: List of movies
+          description: ""
+  /api/login/:
+    get:
+      operationId: login_retrieve
+      description: Method not allowed
+      tags:
+        - login
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          description: No response body
+    post:
+      operationId: login_create
+      description: Login with username and password
+      tags:
+        - login
+      requestBody:
+        content:
+          username:
+            schema:
+              type: string
+          password:
+            schema:
+              type: string
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                description: Login successful
+          description: ""
+  /api/logout/:
+    post:
+      operationId: logout_create
+      description: Logout
+      tags:
+        - logout
+      requestBody:
+        content:
+          refresh_token:
+            schema:
+              type: string
+      security:
+        - jwtAuth: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                description: Logout successful
+          description: ""
+  /api/movie/{id}/:
+    get:
+      operationId: movie_retrieve
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - movie
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+          description: ""
+  /api/notifications/{id}/:
+    get:
+      operationId: notifications_list
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - notifications
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+          description: ""
+  /api/profile-feed/{id}/:
+    get:
+      operationId: profile_feed_list
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - profile-feed
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+          description: ""
+  /api/profile/{id}/:
+    get:
+      operationId: profile_retrieve
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - profile
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+          description: ""
+  /api/profiles/:
+    get:
+      operationId: profiles_list
+      tags:
+        - profiles
+      security:
+        - jwtAuth: []
+        - {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProfileShort"
+          description: ""
+components:
+  schemas:
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        owner:
+          $ref: "#/components/schemas/ProfileShort"
+        body:
+          type: string
+          maxLength: 300
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        movie:
+          type: string
+          format: uuid
+      required:
+        - body
+        - created
+        - id
+        - movie
+        - owner
+    Like:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        owner:
+          $ref: "#/components/schemas/ProfileShort"
+      required:
+        - id
+        - owner
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        sender:
+          $ref: "#/components/schemas/ProfileShort"
+        recipient:
+          $ref: "#/components/schemas/ProfileShort"
+        body:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - body
+        - id
+        - recipient
+        - sender
+        - timestamp
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        owner:
+          $ref: "#/components/schemas/ProfileShort"
+        title:
+          type: string
+          maxLength: 200
+        user_rating:
+          type: number
+          format: double
+        user_review:
+          type: string
+          nullable: true
+          maxLength: 500
+        description:
+          type: string
+          nullable: true
+          maxLength: 500
+        poster_url:
+          type: string
+          nullable: true
+          maxLength: 200
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        kinopoisk_url:
+          type: string
+          maxLength: 300
+        likes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Like"
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
+      required:
+        - comments
+        - created
+        - id
+        - kinopoisk_url
+        - likes
+        - owner
+        - title
+        - user_rating
+    MovieShort:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+      required:
+        - id
+        - title
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        recipient:
+          $ref: "#/components/schemas/ProfileShort"
+        sender:
+          $ref: "#/components/schemas/ProfileShort"
+        movie:
+          $ref: "#/components/schemas/MovieShort"
+        message:
+          $ref: "#/components/schemas/Message"
+        notification_type:
+          $ref: "#/components/schemas/NotificationTypeEnum"
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - created
+        - id
+        - message
+        - movie
+        - notification_type
+        - recipient
+        - sender
+    NotificationTypeEnum:
+      enum:
+        - follow
+        - like
+        - comment
+        - message
+      type: string
+      description: |-
+        * `follow` - Follow
+        * `like` - Like
+        * `comment` - Comment
+        * `message` - Message
+    Profile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        username:
+          type: string
+          nullable: true
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 100
+        birthday:
+          type: string
+          format: date
+          nullable: true
+        profile_image:
+          type: string
+          format: uri
+          nullable: true
+        followers:
+          type: string
+          readOnly: true
+        followings:
+          type: string
+          readOnly: true
+      required:
+        - followers
+        - followings
+        - id
+    ProfileShort:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        username:
+          type: string
+          nullable: true
+          maxLength: 100
+        profile_image:
+          type: string
+          format: uri
+          nullable: true
+      required:
+        - id
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
