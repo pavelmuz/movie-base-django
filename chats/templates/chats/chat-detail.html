@@ -17,7 +17,7 @@
         <h5 class="card-title">
             Чат с пользователем:
             <a href="{% url "profile" recipient.id %}" class="card-link text-decoration-none">
-                <img src="{{ recipient.profile_image.url }}" class="avatar-img-sm mx-2">            
+                <img src="{{ recipient.profile_image }}" class="avatar-img-sm mx-2">            
                 {{ recipient.username }}
             </a>
         </h5>

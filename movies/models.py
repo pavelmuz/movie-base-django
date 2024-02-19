@@ -29,6 +29,11 @@ class Movie(models.Model):
         comments = self.comment_set.filter(movie=self).order_by('created')
         return comments
 
+    @property
+    def users_liked(self):
+        liked = self.like_set.all().values_list('owner__id', flat=True)
+        return liked
+
 
 class Like(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)

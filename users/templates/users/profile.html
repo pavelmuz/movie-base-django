@@ -9,7 +9,7 @@
     <div class="row py-3 px-3">
         <!-- Profile avatar -->
         <div class="col-auto">
-            <img src="{{ profile.profile_image.url }}" class="avatar-img-lg">
+            <img src="{{ profile.profile_image }}" class="avatar-img-lg">
         </div>
         <!-- Profile info -->
         <div class="col-6 me-auto">
@@ -57,7 +57,7 @@
                                     <!-- Profile avatar -->
                                     <div class="col-auto my-auto pe-0">
                                         <a href="{% url 'profile' follow.follower.id %}" class="card-link text-decoration-none">
-                                            <img src="{{ follow.follower.profile_image.url }}" class="avatar-img-md">
+                                            <img src="{{ follow.follower.profile_image }}" class="avatar-img-md">
                                         </a>
                                     </div>
                                     <!-- Profile info -->
@@ -102,7 +102,7 @@
                                     <!-- Profile avatar -->
                                     <div class="col-auto my-auto pe-0">
                                         <a href="{% url 'profile' follow.following.id %}" class="card-link text-decoration-none">
-                                            <img src="{{ follow.following.profile_image.url }}" class="avatar-img-md">
+                                            <img src="{{ follow.following.profile_image }}" class="avatar-img-md">
                                         </a>
                                     </div>
                                     <!-- Profile info -->
@@ -253,7 +253,7 @@
                                 <!-- Profile avatar -->
                                 <div class="col-auto my-auto pe-0">
                                     <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
-                                        <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
+                                        <img src="{{ like.owner.profile_image }}" class="avatar-img-md">
                                     </a>
                                 </div>
                                 <!-- Profile info -->
@@ -275,7 +275,7 @@
         <!-- Last comments -->
         <div class="row pb-2">
             <!-- Last comments list -->
-            {% for comment in movie.get_card_comments %}
+            {% for comment in movie.comments|slice:":2" %}
                 <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
             {% endfor %}
         </div>

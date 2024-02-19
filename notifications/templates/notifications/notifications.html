@@ -21,7 +21,7 @@
             {% if notification.notification_type == 'follow' %}
                 <div class="col-auto my-auto pe-0">
                     <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
-                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                        <img src="{{ notification.sender.profile_image }}" class="avatar-img-sm">
                     </a>
                 </div>
                 <div class="col-8 my-auto me-auto ps-1">
@@ -41,7 +41,7 @@
             {% elif notification.notification_type == 'like' %}
                 <div class="col-auto my-auto pe-0">
                     <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
-                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                        <img src="{{ notification.sender.profile_image }}" class="avatar-img-sm">
                     </a>
                 </div>
                 <div class="col-auto my-auto px-1">
@@ -66,7 +66,7 @@
             {% elif notification.notification_type == 'comment' %}
                 <div class="col-auto my-auto pe-0">
                     <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
-                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                        <img src="{{ notification.sender.profile_image }}" class="avatar-img-sm">
                     </a>
                 </div>
                 <div class="col-auto my-auto px-1">
@@ -91,7 +91,7 @@
             {% elif notification.notification_type == 'message' %}
                 <div class="col-auto my-auto pe-0">
                     <a href="{% url 'profile' notification.sender.id %}" class="card-link text-decoration-none">
-                        <img src="{{ notification.sender.profile_image.url }}" class="avatar-img-sm">
+                        <img src="{{ notification.sender.profile_image }}" class="avatar-img-sm">
                     </a>
                 </div>
                 <div class="col-auto my-auto px-1">

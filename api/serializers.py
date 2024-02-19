@@ -1,8 +1,34 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from users.models import Profile, Follow
 from movies.models import Movie, Like, Comment
 from chats.models import Message
 from notifications.models import Notification
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password1 = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'email',
+            'first_name',
+            'password1',
+            'password2'
+        ]
+
+    def create(self, validated_data):
+        password1 = validated_data.pop('password1')
+        password2 = validated_data.pop('password2')
+
+        if password1 != password2:
+            raise serializers.ValidationError("Passwords don't match")
+
+        user = User.objects.create_user(**validated_data, password=password1)
+        return user
 
 
 class ProfileShortSerializer(serializers.ModelSerializer):
@@ -62,12 +88,20 @@ class ProfileSerializer(serializers.ModelSerializer):
         return FollowingSerializer(instance=followings, many=True).data
 
 
-class LikeSerializer(serializers.ModelSerializer):
+class LikeShortSerializer(serializers.ModelSerializer):
     owner = ProfileShortSerializer(many=False)
 
     class Meta:
         model = Like
         fields = ['id', 'owner']
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    owner = ProfileShortSerializer
+
+    class Meta:
+        model = Like
+        fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -81,7 +115,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     owner = ProfileShortSerializer(many=False)
     comments = CommentSerializer(many=True)
-    likes = LikeSerializer(many=True)
+    likes = LikeShortSerializer(many=True)
 
     class Meta:
         model = Movie
@@ -106,6 +140,20 @@ class MovieShortSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'title'
+        ]
+
+
+class MovieCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = [
+            'title',
+            'user_rating',
+            'user_review',
+            'description',
+            'poster_url',
+            'created',
+            'kinopoisk_url',
         ]
 
 

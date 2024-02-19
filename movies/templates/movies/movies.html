@@ -12,7 +12,7 @@
         <!-- Movie owner info -->
         <div class="row py-2">
             <div class="col-auto">
-                <img src="{{ movie.owner.profile_image.url }}" class="avatar-img-sm">
+                <img src="{{ movie.owner.profile_image }}" class="avatar-img-sm">
             </div>
             <div class="col ps-0">
                 <p class="card-text">{{ movie.owner.username }}</p>
@@ -107,7 +107,7 @@
                                 <!-- User avatar -->
                                 <div class="col-auto my-auto pe-0">
                                     <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
-                                        <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
+                                        <img src="{{ like.owner.profile_image }}" class="avatar-img-md">
                                     </a>
                                 </div>
                                 <!-- User info -->
@@ -128,7 +128,7 @@
         </div>
         <!-- Last 2 comments -->
         <div class="row pb-2">
-            {% for comment in movie.get_card_comments %}
+            {% for comment in movie.comments|slice:":2" %}
                 <p class="card-text mb-0"><strong>{{ comment.owner.username }}</strong> {{ comment.body }}</p>
             {% endfor %}
         </div>

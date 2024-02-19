@@ -7,133 +7,162 @@ paths:
   /api/active-chats/{id}/:
     get:
       operationId: active_chats_list
+      description: Получить список активных чатов
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
       tags:
-        - active-chats
+      - active-chats
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ProfileShort"
-          description: ""
+                  $ref: '#/components/schemas/ProfileShort'
+          description: ''
+  /api/add-movie/:
+    post:
+      operationId: add_movie_create
+      description: Добавить фильм
+      tags:
+      - add-movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MovieCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MovieCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieCreate'
+          description: ''
   /api/chat/{user_id}/{recipient_id}/:
     get:
       operationId: chat_list
+      description: Получить список сообщений в чате
       parameters:
-        - in: path
-          name: recipient_id
-          schema:
-            type: string
-          required: true
-        - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: recipient_id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: user_id
+        schema:
+          type: string
+        required: true
       tags:
-        - chat
+      - chat
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Message"
-          description: ""
+                  $ref: '#/components/schemas/Message'
+          description: ''
   /api/feed/:
     get:
       operationId: feed_list
       description: Получить главную ленту фильмов
       tags:
-        - feed
+      - feed
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Movie"
-          description: ""
+                  $ref: '#/components/schemas/Movie'
+          description: ''
   /api/kinopoisk-movie/{kinopoisk_id}/:
     get:
       operationId: kinopoisk_movie_retrieve
       description: Получить данные о фильме по ID
       parameters:
-        - in: path
-          name: kinopoisk_id
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: kinopoisk_id
+        schema:
+          type: string
+        required: true
       tags:
-        - kinopoisk-movie
+      - kinopoisk-movie
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 description: Movie details
-          description: ""
+          description: ''
   /api/kinopoisk-movies/{title}/:
     get:
       operationId: kinopoisk_movies_retrieve
       description: Получить список фильмов по ключевому слову
       parameters:
-        - in: path
-          name: title
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: title
+        schema:
+          type: string
+        required: true
       tags:
-        - kinopoisk-movies
+      - kinopoisk-movies
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 description: List of movies
-          description: ""
+          description: ''
   /api/login/:
     get:
       operationId: login_retrieve
-      description: Method not allowed
+      description: Метод запрещен
       tags:
-        - login
+      - login
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           description: No response body
     post:
       operationId: login_create
-      description: Login with username and password
+      description: Войти по имени пользователя и паролю
       tags:
-        - login
+      - login
       requestBody:
         content:
           username:
@@ -143,140 +172,345 @@ paths:
             schema:
               type: string
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 description: Login successful
-          description: ""
+          description: ''
   /api/logout/:
     post:
       operationId: logout_create
-      description: Logout
+      description: Выход
       tags:
-        - logout
+      - logout
       requestBody:
         content:
           refresh_token:
             schema:
               type: string
       security:
-        - jwtAuth: []
+      - jwtAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 description: Logout successful
-          description: ""
+          description: ''
   /api/movie/{id}/:
     get:
       operationId: movie_retrieve
+      description: Получить, обновить, удалить карточку фильма
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
       tags:
-        - movie
+      - movie
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Movie"
-          description: ""
+                $ref: '#/components/schemas/Movie'
+          description: ''
+    put:
+      operationId: movie_update
+      description: Получить, обновить, удалить карточку фильма
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Movie'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: ''
+    patch:
+      operationId: movie_partial_update
+      description: Получить, обновить, удалить карточку фильма
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMovie'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMovie'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMovie'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: ''
+    delete:
+      operationId: movie_destroy
+      description: Получить, обновить, удалить карточку фильма
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - movie
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/notification/{id}/:
+    delete:
+      operationId: notification_destroy
+      description: Удалить уведомление
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - notification
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/notifications/{id}/:
     get:
       operationId: notifications_list
+      description: Получить список уведомлений
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
       tags:
-        - notifications
+      - notifications
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Notification"
-          description: ""
+                  $ref: '#/components/schemas/Notification'
+          description: ''
   /api/profile-feed/{id}/:
     get:
       operationId: profile_feed_list
+      description: Получить ленту фильмов пользователя
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
       tags:
-        - profile-feed
+      - profile-feed
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Movie"
-          description: ""
+                  $ref: '#/components/schemas/Movie'
+          description: ''
   /api/profile/{id}/:
     get:
       operationId: profile_retrieve
+      description: Получить, обновить, удалить профиль
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
       tags:
-        - profile
+      - profile
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Profile"
-          description: ""
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    put:
+      operationId: profile_update
+      description: Получить, обновить, удалить профиль
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    patch:
+      operationId: profile_partial_update
+      description: Получить, обновить, удалить профиль
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    delete:
+      operationId: profile_destroy
+      description: Получить, обновить, удалить профиль
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - profile
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/profiles/:
     get:
       operationId: profiles_list
+      description: Получить список пользователей
       tags:
-        - profiles
+      - profiles
       security:
-        - jwtAuth: []
-        - {}
+      - jwtAuth: []
+      - {}
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ProfileShort"
-          description: ""
+                  $ref: '#/components/schemas/ProfileShort'
+          description: ''
+  /api/register/:
+    post:
+      operationId: register_create
+      description: Создать аккаунт
+      tags:
+      - register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
 components:
   schemas:
     Comment:
@@ -287,7 +521,7 @@ components:
           format: uuid
           readOnly: true
         owner:
-          $ref: "#/components/schemas/ProfileShort"
+          $ref: '#/components/schemas/ProfileShort'
         body:
           type: string
           maxLength: 300
@@ -299,11 +533,11 @@ components:
           type: string
           format: uuid
       required:
-        - body
-        - created
-        - id
-        - movie
-        - owner
+      - body
+      - created
+      - id
+      - movie
+      - owner
     Like:
       type: object
       properties:
@@ -312,10 +546,10 @@ components:
           format: uuid
           readOnly: true
         owner:
-          $ref: "#/components/schemas/ProfileShort"
+          $ref: '#/components/schemas/ProfileShort'
       required:
-        - id
-        - owner
+      - id
+      - owner
     Message:
       type: object
       properties:
@@ -324,9 +558,9 @@ components:
           format: uuid
           readOnly: true
         sender:
-          $ref: "#/components/schemas/ProfileShort"
+          $ref: '#/components/schemas/ProfileShort'
         recipient:
-          $ref: "#/components/schemas/ProfileShort"
+          $ref: '#/components/schemas/ProfileShort'
         body:
           type: string
         timestamp:
@@ -334,11 +568,11 @@ components:
           format: date-time
           readOnly: true
       required:
-        - body
-        - id
-        - recipient
-        - sender
-        - timestamp
+      - body
+      - id
+      - recipient
+      - sender
+      - timestamp
     Movie:
       type: object
       properties:
@@ -347,7 +581,7 @@ components:
           format: uuid
           readOnly: true
         owner:
-          $ref: "#/components/schemas/ProfileShort"
+          $ref: '#/components/schemas/ProfileShort'
         title:
           type: string
           maxLength: 200
@@ -376,20 +610,53 @@ components:
         likes:
           type: array
           items:
-            $ref: "#/components/schemas/Like"
+            $ref: '#/components/schemas/Like'
         comments:
           type: array
           items:
-            $ref: "#/components/schemas/Comment"
+            $ref: '#/components/schemas/Comment'
       required:
-        - comments
-        - created
-        - id
-        - kinopoisk_url
-        - likes
-        - owner
-        - title
-        - user_rating
+      - comments
+      - created
+      - id
+      - kinopoisk_url
+      - likes
+      - owner
+      - title
+      - user_rating
+    MovieCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 200
+        user_rating:
+          type: number
+          format: double
+        user_review:
+          type: string
+          nullable: true
+          maxLength: 500
+        description:
+          type: string
+          nullable: true
+          maxLength: 500
+        poster_url:
+          type: string
+          nullable: true
+          maxLength: 200
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        kinopoisk_url:
+          type: string
+          maxLength: 300
+      required:
+      - created
+      - kinopoisk_url
+      - title
+      - user_rating
     MovieShort:
       type: object
       properties:
@@ -401,8 +668,8 @@ components:
           type: string
           maxLength: 200
       required:
-        - id
-        - title
+      - id
+      - title
     Notification:
       type: object
       properties:
@@ -411,39 +678,115 @@ components:
           format: uuid
           readOnly: true
         recipient:
-          $ref: "#/components/schemas/ProfileShort"
+          $ref: '#/components/schemas/ProfileShort'
         sender:
-          $ref: "#/components/schemas/ProfileShort"
+          $ref: '#/components/schemas/ProfileShort'
         movie:
-          $ref: "#/components/schemas/MovieShort"
+          $ref: '#/components/schemas/MovieShort'
         message:
-          $ref: "#/components/schemas/Message"
+          $ref: '#/components/schemas/Message'
         notification_type:
-          $ref: "#/components/schemas/NotificationTypeEnum"
+          $ref: '#/components/schemas/NotificationTypeEnum'
         created:
           type: string
           format: date-time
           readOnly: true
       required:
-        - created
-        - id
-        - message
-        - movie
-        - notification_type
-        - recipient
-        - sender
+      - created
+      - id
+      - message
+      - movie
+      - notification_type
+      - recipient
+      - sender
     NotificationTypeEnum:
       enum:
-        - follow
-        - like
-        - comment
-        - message
+      - follow
+      - like
+      - comment
+      - message
       type: string
       description: |-
         * `follow` - Follow
         * `like` - Like
         * `comment` - Comment
         * `message` - Message
+    PatchedMovie:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        owner:
+          $ref: '#/components/schemas/ProfileShort'
+        title:
+          type: string
+          maxLength: 200
+        user_rating:
+          type: number
+          format: double
+        user_review:
+          type: string
+          nullable: true
+          maxLength: 500
+        description:
+          type: string
+          nullable: true
+          maxLength: 500
+        poster_url:
+          type: string
+          nullable: true
+          maxLength: 200
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        kinopoisk_url:
+          type: string
+          maxLength: 300
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Like'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+    PatchedProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        username:
+          type: string
+          nullable: true
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 100
+        birthday:
+          type: string
+          format: date
+          nullable: true
+        profile_image:
+          type: string
+          format: uri
+          nullable: true
+        followers:
+          type: string
+          readOnly: true
+        followings:
+          type: string
+          readOnly: true
     Profile:
       type: object
       properties:
@@ -479,9 +822,9 @@ components:
           type: string
           readOnly: true
       required:
-        - followers
-        - followings
-        - id
+      - followers
+      - followings
+      - id
     ProfileShort:
       type: object
       properties:
@@ -502,7 +845,34 @@ components:
           format: uri
           nullable: true
       required:
-        - id
+      - id
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        password1:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+      required:
+      - password1
+      - password2
+      - username
   securitySchemes:
     jwtAuth:
       type: http

@@ -16,7 +16,7 @@
         <a href="{% url 'profile' movie.owner.id %}" class="card-link text-decoration-none">
             <div class="row py-2">
                 <div class="col-auto">
-                    <img src="{{ movie.owner.profile_image.url }}" class="avatar-img-sm">
+                    <img src="{{ movie.owner.profile_image }}" class="avatar-img-sm">
                 </div>
                 <div class="col ps-0">
                     <p class="card-text">{{ movie.owner.username }}</p>
@@ -69,7 +69,7 @@
                                     <!-- User avatar -->
                                     <div class="col-auto my-auto pe-0">
                                         <a href="{% url 'profile' like.owner.id %}" class="card-link text-decoration-none">
-                                            <img src="{{ like.owner.profile_image.url }}" class="avatar-img-md">
+                                            <img src="{{ like.owner.profile_image }}" class="avatar-img-md">
                                         </a>
                                     </div>
                                     <!-- User info -->

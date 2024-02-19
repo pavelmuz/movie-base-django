@@ -7,20 +7,22 @@ from .models import Like, Comment
 @receiver(post_save, sender=Like)
 def create_like_notification(sender, instance, created, **kwargs):
     if created:
-        Notification.objects.create(
-            recipient=instance.movie.owner,
-            sender=instance.owner,
-            notification_type='like',
-            movie=instance.movie
-        )
+        if instance.movie.owner != instance.owner:
+            Notification.objects.create(
+                recipient=instance.movie.owner,
+                sender=instance.owner,
+                notification_type='like',
+                movie=instance.movie
+            )
 
 
 @receiver(post_save, sender=Comment)
 def create_comment_notification(sender, instance, created, **kwargs):
     if created:
-        Notification.objects.create(
-            recipient=instance.movie.owner,
-            sender=instance.owner,
-            notification_type='comment',
-            movie=instance.movie
-        )
+        if instance.movie.owner != instance.owner:
+            Notification.objects.create(
+                recipient=instance.movie.owner,
+                sender=instance.owner,
+                notification_type='comment',
+                movie=instance.movie
+            )

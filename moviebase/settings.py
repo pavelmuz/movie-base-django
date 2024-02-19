@@ -162,7 +162,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'MovieBase API',
-    'DESCRIPTION': 'MoviBase social network',
+    'DESCRIPTION': 'MovieBase social network',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
