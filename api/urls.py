@@ -4,8 +4,9 @@ from .import views
 
 
 urlpatterns = [
-    path('kinopoisk-movies/<str:title>/', views.get_kinopoisk_movies),
-    path('kinopoisk-movie/<str:kinopoisk_id>/', views.get_kinopoisk_movie),
+    path('login/', views.LoginView.as_view()),
+    path('register/', views.RegisterView.as_view()),
+    path('logout/', views.LogoutView.as_view()),
 
     path('feed/', views.MovieListView.as_view()),
     path('movie/<str:pk>/', views.movie_view),
@@ -22,9 +23,8 @@ urlpatterns = [
     path('message/<str:recipient_id>/', views.message_view),
     path('comment/<str:movie_id>/', views.comment_view),
 
-    path('login/', views.LoginView.as_view()),
-    path('register/', views.RegisterView.as_view()),
-    path('logout/', views.LogoutView.as_view()),
+    path('kinopoisk-movies/<str:title>/', views.get_kinopoisk_movies),
+    path('kinopoisk-movie/<str:kinopoisk_id>/', views.get_kinopoisk_movie),
 
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
