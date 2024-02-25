@@ -151,8 +151,8 @@ class ProfileListView(generics.ListAPIView):
 
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticatedOrPatchDeleteOnly, IsProfileOwnerOrReadOnly])
-def profile_view(request, pk):
-    profile = Profile.objects.get(id=pk)
+def account_view(request):
+    profile = request.user.profile
     if request.method == 'GET':
         serializer = ProfileSerializer(profile, many=False)
         return Response(serializer.data, status=200)
@@ -192,6 +192,27 @@ def profile_view(request, pk):
         return Response({'message': 'Profile deleted'}, status=204)
 
 
+class AccountFeedListView(generics.ListAPIView):
+    '''Получить ленту фильмов пользователя'''
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated, IsMovieOwnerOrReadOnly]
+
+    def get_queryset(self):
+        owner = self.request.user.profile
+        movies = Movie.objects.filter(owner=owner).order_by('-created')
+        return movies
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProfileView(generics.RetrieveAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
 class ProfileFeedListView(generics.ListAPIView):
     '''Получить ленту фильмов пользователя'''
     serializer_class = MovieSerializer
@@ -211,10 +232,10 @@ class ProfileFeedListView(generics.ListAPIView):
 class NotificationListView(generics.ListAPIView):
     '''Получить список уведомлений'''
     serializer_class = NotificationSerializer
+    permission_classes = [IsNotificationRecipientOrReadOnly, IsAuthenticated]
 
     def get_queryset(self):
-        pk = self.kwargs.get('pk')
-        profile = Profile.objects.get(id=pk)
+        profile = self.request.user.profile
         notifications = profile.notifications.all().order_by('-created')
         return notifications
 
@@ -237,10 +258,10 @@ class NotificationView(generics.DestroyAPIView):
 class ActiveChatsListView(generics.ListAPIView):
     '''Получить список активных чатов'''
     serializer_class = ProfileShortSerializer
+    permission_classes = [IsAuthenticatedOrPatchDeleteOnly]
 
     def get_queryset(self):
-        pk = self.kwargs.get('pk')
-        profile = Profile.objects.get(id=pk)
+        profile = self.request.user.profile
         active_chats = Profile.objects.filter(
             Q(sent_messages__recipient=profile) |
             Q(recieved_messages__sender=profile)
@@ -256,11 +277,11 @@ class ActiveChatsListView(generics.ListAPIView):
 class ChatListView(generics.ListAPIView):
     '''Получить список сообщений в чате'''
     serializer_class = MessageSerializer
+    permission_classes = [IsAuthenticatedOrPatchDeleteOnly]
 
     def get_queryset(self):
-        user_id = self.kwargs.get('user_id')
         recipient_id = self.kwargs.get('recipient_id')
-        current_user = Profile.objects.get(id=user_id)
+        current_user = self.request.user.profile
         recipient = Profile.objects.get(id=recipient_id)
         messages = Message.objects.filter(
             (Q(sender=current_user) & Q(recipient=recipient)) |
