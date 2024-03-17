@@ -146,7 +146,7 @@ class AddMovieView(generics.CreateAPIView):
 class ProfileListView(generics.ListAPIView):
     '''Получить список пользователей'''
     queryset = Profile.objects.all()
-    serializer_class = ProfileShortSerializer
+    serializer_class = ProfileSerializer
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
@@ -158,10 +158,11 @@ def account_view(request):
         return Response(serializer.data, status=200)
     if request.method == 'PATCH':
         image = request.FILES.get('image')
+        data_copy = request.data.copy()
         if 'image' in request.data:
-            del request.data['image']
+            del data_copy['image']
         serializer = ProfileSerializer(
-            profile, data=request.data, partial=True)
+            profile, data=data_copy, partial=True)
         if serializer.is_valid():
             name = serializer.validated_data.get('name')
             username = serializer.validated_data.get('username')
