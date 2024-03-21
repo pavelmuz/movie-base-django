@@ -15,6 +15,7 @@ from drf_spectacular.utils import extend_schema
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db.models import Q
 
 from chats.models import Message
@@ -112,11 +113,20 @@ class MovieListView(generics.ListAPIView):
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticatedOrPatchDeleteOnly, IsMovieOwnerOrReadOnly])
 def movie_view(request, pk):
-    movie = Movie.objects.get(id=pk)
+    cache_key = f'movie_{pk}'
+    cached_movie = cache.get(cache_key)
+
+    if cached_movie is None:
+        movie = Movie.objects.get(id=pk)
+        serializer = MovieSerializer(movie)
+        cache.set(cache_key, serializer.data, 60)  # Cache for 15 minutes
+    else:
+        serializer = MovieSerializer(cached_movie)
+
     if request.method == 'GET':
-        serializer = MovieSerializer(movie, many=False)
         return Response(serializer.data, status=200)
     if request.method == 'PATCH':
+        movie = Movie.objects.get(id=pk)
         serializer = MovieSerializer(movie, data=request.data, partial=True)
         if serializer.is_valid():
             user_rating = serializer.validated_data.get('user_rating')
@@ -126,10 +136,12 @@ def movie_view(request, pk):
             if user_review is not None:
                 movie.user_review = user_review
             movie.save()
+            cache.delete(cache_key)
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     if request.method == 'DELETE':
         movie.delete()
+        cache.delete(cache_key)
         return Response({'message': 'Movie deleted'}, status=204)
 
 
@@ -370,7 +382,14 @@ def comment_view(request, movie_id):
 )
 @api_view(['GET'])
 def get_kinopoisk_movies(request, title: str):
-    movies = get_movies(title)
+    cache_key = f'movie_search_{title}'
+    cached_movies = cache.get(cache_key)
+
+    if cached_movies is None:
+        movies = get_movies(title)
+        cache.set(cache_key, movies, 60*15)
+    else:
+        movies = cached_movies
     return Response(movies)
 
 
@@ -380,5 +399,12 @@ def get_kinopoisk_movies(request, title: str):
 )
 @api_view(['GET'])
 def get_kinopoisk_movie(request, kinopoisk_id: int):
-    movie = get_movie(kinopoisk_id)
+    cache_key = f'kinopoisk_{kinopoisk_id}'
+    cached_movie = cache.get(cache_key)
+
+    if cached_movie is None:
+        movie = get_movie(kinopoisk_id)
+        cache.set(cache_key, movie, 60*15)
+    else:
+        movie = cached_movie
     return Response(movie)
