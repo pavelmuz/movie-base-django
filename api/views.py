@@ -119,7 +119,7 @@ def movie_view(request, pk):
     if cached_movie is None:
         movie = Movie.objects.get(id=pk)
         serializer = MovieSerializer(movie)
-        cache.set(cache_key, serializer.data, 60)  # Cache for 15 minutes
+        cache.set(cache_key, serializer.data, 60*5)
     else:
         serializer = MovieSerializer(cached_movie)
 
@@ -318,11 +318,13 @@ def like_view(request, movie_id):
             owner=owner,
             movie=movie
         )
+        cache.delete(f'movie_{movie_id}')
         return Response({'message': 'Like created'}, status=201)
     if request.method == 'DELETE':
         try:
             like = movie.like_set.get(owner=owner)
             like.delete()
+            cache.delete(f'movie_{movie_id}')
             return Response({'message': 'Like deleted'}, status=204)
         except:
             return Response({'message': 'Like not found'}, status=404)
@@ -373,6 +375,7 @@ def comment_view(request, movie_id):
         movie=movie,
         body=body
     )
+    cache.delete(f'movie_{movie_id}')
     return Response({'message': 'Comment sent'}, status=201)
 
 
