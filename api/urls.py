@@ -11,7 +11,7 @@ urlpatterns = [
     path('feed/', views.MovieListView.as_view()),
     path('movie/<str:pk>/', views.movie_view),
     path('add-movie/', views.AddMovieView.as_view()),
-    path('profiles/', views.ProfileListView.as_view()),
+    path('profiles/<str:query>/', views.ProfileListView.as_view()),
     path('account/', views.account_view),
     path('account-feed/', views.AccountFeedListView.as_view()),
     path('profile/<str:pk>/', views.ProfileView.as_view()),

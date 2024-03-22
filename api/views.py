@@ -147,8 +147,20 @@ class AddMovieView(generics.CreateAPIView):
 
 class ProfileListView(generics.ListAPIView):
     '''Получить список пользователей'''
-    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        search_param = self.kwargs.get('query')
+        profiles = Profile.objects.filter(
+            Q(username__icontains=search_param) |
+            Q(name__icontains=search_param)
+        )
+        return profiles
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
