@@ -113,20 +113,12 @@ class MovieListView(generics.ListAPIView):
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticatedOrPatchDeleteOnly, IsMovieOwnerOrReadOnly])
 def movie_view(request, pk):
-    cache_key = f'movie_{pk}'
-    cached_movie = cache.get(cache_key)
-
-    if cached_movie is None:
-        movie = Movie.objects.get(id=pk)
-        serializer = MovieSerializer(movie)
-        cache.set(cache_key, serializer.data, 60*5)
-    else:
-        serializer = MovieSerializer(cached_movie)
+    movie = Movie.objects.get(id=pk)
 
     if request.method == 'GET':
+        serializer = MovieSerializer(movie)
         return Response(serializer.data, status=200)
     if request.method == 'PATCH':
-        movie = Movie.objects.get(id=pk)
         serializer = MovieSerializer(movie, data=request.data, partial=True)
         if serializer.is_valid():
             user_rating = serializer.validated_data.get('user_rating')
@@ -136,12 +128,10 @@ def movie_view(request, pk):
             if user_review is not None:
                 movie.user_review = user_review
             movie.save()
-            cache.delete(cache_key)
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     if request.method == 'DELETE':
         movie.delete()
-        cache.delete(cache_key)
         return Response({'message': 'Movie deleted'}, status=204)
 
 
@@ -318,13 +308,11 @@ def like_view(request, movie_id):
             owner=owner,
             movie=movie
         )
-        cache.delete(f'movie_{movie_id}')
         return Response({'message': 'Like created'}, status=201)
     if request.method == 'DELETE':
         try:
             like = movie.like_set.get(owner=owner)
             like.delete()
-            cache.delete(f'movie_{movie_id}')
             return Response({'message': 'Like deleted'}, status=204)
         except:
             return Response({'message': 'Like not found'}, status=404)
@@ -375,7 +363,6 @@ def comment_view(request, movie_id):
         movie=movie,
         body=body
     )
-    cache.delete(f'movie_{movie_id}')
     return Response({'message': 'Comment sent'}, status=201)
 
 
