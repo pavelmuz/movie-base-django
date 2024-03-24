@@ -275,7 +275,9 @@ SOCIAL_AUTH_YANDEX_OAUTH2_REDIRECT_URI = 'http://localhost:800/auth/complete/yan
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:8000",
-    "http://127.0.0.1:8000"
+    "http://127.0.0.1:8000",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080"
 ]
 
 CACHES = {
