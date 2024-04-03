@@ -8,6 +8,7 @@ notifications/migrations/__pycache__
 chats/__pycache__
 chats/migrations/__pycache__
 static/.DS_Store
+staticfiles
 api/__pycache__
 .DS_Store
 .env
