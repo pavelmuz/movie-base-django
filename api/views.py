@@ -15,7 +15,6 @@ from drf_spectacular.utils import extend_schema
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.core.cache import cache
 from django.db.models import Q
 
 from chats.models import Message
@@ -213,7 +212,7 @@ class AccountFeedListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsMovieOwnerOrReadOnly]
 
     def get_queryset(self):
-        owner = self.request.user.profile
+        owner = self.request.user.profßile
         movies = Movie.objects.filter(owner=owner).order_by('-created')
         return movies
 
@@ -384,14 +383,7 @@ def comment_view(request, movie_id):
 )
 @api_view(['GET'])
 def get_kinopoisk_movies(request, title: str):
-    cache_key = f'movie_search_{title}'
-    cached_movies = cache.get(cache_key)
-
-    if cached_movies is None:
-        movies = get_movies(title)
-        cache.set(cache_key, movies, 60*15)
-    else:
-        movies = cached_movies
+    movies = get_movies(title)
     return Response(movies)
 
 
@@ -401,12 +393,5 @@ def get_kinopoisk_movies(request, title: str):
 )
 @api_view(['GET'])
 def get_kinopoisk_movie(request, kinopoisk_id: int):
-    cache_key = f'kinopoisk_{kinopoisk_id}'
-    cached_movie = cache.get(cache_key)
-
-    if cached_movie is None:
-        movie = get_movie(kinopoisk_id)
-        cache.set(cache_key, movie, 60*15)
-    else:
-        movie = cached_movie
+    movie = get_movie(kinopoisk_id)
     return Response(movie)
