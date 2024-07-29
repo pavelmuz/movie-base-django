@@ -1,5 +1,5 @@
-import tempfile
 import uuid
+import os
 
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
@@ -16,6 +16,8 @@ from drf_spectacular.utils import extend_schema
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 from chats.models import Message
 from movies.models import Movie, Like, Comment
@@ -166,41 +168,29 @@ class ProfileListView(generics.ListAPIView):
 @permission_classes([IsAuthenticatedOrPatchDeleteOnly, IsProfileOwnerOrReadOnly])
 def account_view(request):
     profile = request.user.profile
+
     if request.method == 'GET':
         serializer = ProfileSerializer(profile, many=False)
         return Response(serializer.data, status=200)
     if request.method == 'PATCH':
-        image = request.FILES.get('image')
-        data_copy = request.data.copy()
-        if 'image' in request.data:
-            del data_copy['image']
         serializer = ProfileSerializer(
-            profile, data=data_copy, partial=True)
+            profile, data=request.data, partial=True)
         if serializer.is_valid():
-            name = serializer.validated_data.get('name')
-            username = serializer.validated_data.get('username')
-            email = serializer.validated_data.get('email')
-            birthday = serializer.validated_data.get('birthday')
-            if name is not None:
-                profile.name = name
-            if username is not None:
-                profile.username = username
-            if email is not None:
-                profile.email = email
-            if birthday is not None:
-                profile.birthday = birthday
-            profile.save()
-        if image:
-            object_name = f"{uuid.uuid4()}-{image.name}"
-            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-                for chunk in image.chunks():
-                    temp_file.write(chunk)
-                file_path = temp_file.name
-            s3_url = upload_to_s3(file_path=file_path, object_name=object_name)
-            if s3_url:
-                profile.profile_image = s3_url
-                profile.save()
-        return Response(serializer.data, status=200)
+            if 'image' in request.FILES:
+                file = request.FILES['image']
+                file_name = f"{uuid.uuid4()}_{file.name}"
+                temp_path = default_storage.save(
+                    f"temp/{file_name}", ContentFile(file.read()))
+                try:
+                    full_temp_path = os.path.join(
+                        default_storage.location, temp_path)
+                    s3_url = upload_to_s3(full_temp_path, file_name)
+                    serializer.validated_data['profile_image'] = s3_url
+                finally:
+                    default_storage.delete(temp_path)
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
     if request.method == 'DELETE':
         profile.delete()
         return Response({'message': 'Profile deleted'}, status=204)
@@ -212,7 +202,7 @@ class AccountFeedListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsMovieOwnerOrReadOnly]
 
     def get_queryset(self):
-        owner = self.request.user.profßile
+        owner = self.request.user.profile
         movies = Movie.objects.filter(owner=owner).order_by('-created')
         return movies
 
